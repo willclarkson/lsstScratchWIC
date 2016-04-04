@@ -42,3 +42,7 @@ simulate populations that they want to plug in.
 * Store the whole run of recovered minus input parameters - should be a single number or couple of numbers per trial
 
 * Evaluate the entire set suitably to produce the single-number Figure of Merit.
+
+* Repeat the above for example OpSim runs (with and without good plane coverage). Fill in the comparison in the relevant Table in the LSST Whitepaper. 
+
+* The readers then realize that all LSST time should be pointed at the plane and adjust their strategy accordingly, along with large amounts of funding to GP investigators.
