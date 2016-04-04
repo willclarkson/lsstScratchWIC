@@ -5,7 +5,7 @@ be run to recover complicated population X on the sky, from OpSim run
 Z.
 
 **Motivation:** In discussion, it seems clear that FoM's like random
-  and statistical error on derived astrophysical (population)
+  and systematic error on derived astrophysical (population)
   parameters are likely to be most persuasively conveyed as the output
   of some kind of Monte Carlo for the FoM, with the various
   complications and choices depending on the science case.
