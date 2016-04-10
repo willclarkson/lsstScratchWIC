@@ -7,9 +7,7 @@ precomputed metrics are set (if you are using precomputed metrics).
 
 ### Data and paths ###
 
-The notebooks should now all work "out of the box."
-
-Be default, the notebooks all look in subdirectories of the working
+By default, the notebooks all look in subdirectories of the working
 directory for the precomputed metrics. 
 
 However, if you uncomment the relevant lines in the notebooks, they will
