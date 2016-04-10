@@ -24,7 +24,7 @@ it's part of the repository.
 When running, I put a symlink to the opsim run into the working
 directory. Something lke the following:
 
-ops2_1092_sqlite.db -> ../LocalCopies/ops2_1092_sqlite.db
+ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCopies/ops2_1092_sqlite.db
 
 I would prefer to set the source directory for opsim runs within the
 notebooks themselves, but it's not clear to me how the path to the
