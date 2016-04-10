@@ -32,7 +32,7 @@ ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCo
   that happens, ask me (WIC) if not!
 
 * Within the notebook, the syntax to input the opsim choice into the
-metric lookslike the following: 
+metric looks like the following: 
 
 runName1092 = 'ops2_1092' 
 
