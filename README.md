@@ -23,7 +23,7 @@ it's part of the repository.
 
 1. **cd ./My/Test/Directory**
 
-2. Copy the two notebooks below into this working directory
+2. Copy the two notebooks below into this working directory. Then run them:
 
 3. **TransientTest_CompareWithPanSTARRS-LikeSN2010mc.ipynb** -- computes the
 "transient" metric, for the two OpSim runs 1189 and 1092.
