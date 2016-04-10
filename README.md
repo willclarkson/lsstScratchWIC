@@ -23,10 +23,12 @@ it's part of the repository.
 
 1. **cd ./My/Test/Directory**
 
-2. **TransientTest_CompareWithPanSTARRS-LikeSN2010mc** -- computes the
+2. Copy the two notebooks below into this working directory
+
+3. **TransientTest_CompareWithPanSTARRS-LikeSN2010mc.ipynb** -- computes the
 "transient" metric, for the two OpSim runs 1189 and 1092.
 
-3. **FigureOfMerit_4p3_Galactic_Supernova** -- computes the density
+4. **FigureOfMerit_4p3_Galactic_Supernova.ipynb** -- computes the density
 metric for 1189 and 1092, then reads them back in (along with the
 transient metrics) to compute the figure of merit.
 
