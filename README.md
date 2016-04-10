@@ -13,7 +13,8 @@ directory for the precomputed metrics.
 However, if you uncomment the relevant lines in the notebooks, they
 will look in subdirectory data/metricOutputs in the repository. This
 is handy if you want other users to be able to use your pre-computed
-metrics.
+metrics, or if you want to replicate someone else's shared work before
+extending it to your own use-case.
 
 There is also an output directory data/fomOutputs - however I recommend you
 test somewhere else first before making that your output directory since
