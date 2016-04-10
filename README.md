@@ -20,7 +20,10 @@ There is also an output directory data/fomOutputs - however I recommend you
 test somewhere else first before making that your output directory since
 it's part of the repository.
 
-### OpSim runs themselves ###
+### Handling the OpSim runs ###
+
+* The OpSim runs are large (typically 4.4 Gb) so probably not a good
+  idea to include them in the repository.
 
 * When running, I have been putting a symlink to the opsim run into the
 working directory. Something lke the following:
