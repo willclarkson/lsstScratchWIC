@@ -5,6 +5,12 @@ Notebooks, random calculations along the way to LSST figures of merit.
 The notebooks should now all work "out of the box," once the paths to
 precomputed metrics are set (if you are using precomputed metrics).
 
+You will also need to have sims_maf and maf_contrib installed on your
+system. The official instructions for how to accomplish this are at
+the link below.
+
+https://confluence.lsstcorp.org/display/SIM/MAF+Installation+and+Initial+Examples
+
 ### Data and paths ###
 
 By default, the notebooks all look in subdirectories of the working
