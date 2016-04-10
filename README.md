@@ -26,7 +26,9 @@ directory. Something lke the following:
 
 ops2_1092_sqlite.db -> ../LocalCopies/ops2_1092_sqlite.db
 
-However this is messy... setting a variable in the notebook is preferred. 
+I would prefer to set the source directory for opsim runs within the
+notebooks themselves, but it's not clear to me how the path to the
+OpSim run is set within the calling syntax... updates welcome!
 
 The opsim runs can be found here:
 
