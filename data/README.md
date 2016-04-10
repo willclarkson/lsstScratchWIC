@@ -2,6 +2,9 @@
 
 WIC 2016-04-10: Various supporting data for figures of merit.
 
+There is a subdirectory 'fomOutputs' to capture output that you want to send up to the repository. Generally you probably 
+don't want to use this for output while testing.
+
 Currently the runs of the individual metrics (SN2010mc-like supernova transient, and Mike Lund's "density" metric) are 
 stored in the subdirectory "metricRuns" . The notebook that then reads both metrics will need to know where these are 
 stored.
