@@ -26,9 +26,12 @@ directory. Something lke the following:
 
 ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCopies/ops2_1092_sqlite.db
 
-I would prefer to set the source directory for opsim runs within the
-notebooks themselves, but it's not clear to me how the path to the
-OpSim run is set within the calling syntax... updates welcome!
+Within the notebook, the syntax to call the run then looks like:
+runName1092 = 'ops2_1092'
+opsdb1092 = db.OpsimDatabase(runName1092 + '_sqlite.db')
+
+(Note that runName1092 gets sent to the metric object, and it is the
+string in brackets that sets the input path).
 
 The opsim runs can be found here:
 
