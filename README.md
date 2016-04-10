@@ -8,7 +8,8 @@ precomputed metrics are set (if you are using precomputed metrics).
 ### Data and paths ###
 
 By default, the notebooks all look in subdirectories of the working
-directory for the precomputed metrics. 
+directory for the precomputed metrics. Outputs are also by default
+sent into subdirectories of the working directory.
 
 However, if you uncomment the relevant lines in the notebooks, they
 will look in subdirectory data/metricOutputs in the repository. This
