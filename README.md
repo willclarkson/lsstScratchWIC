@@ -10,8 +10,10 @@ precomputed metrics are set (if you are using precomputed metrics).
 By default, the notebooks all look in subdirectories of the working
 directory for the precomputed metrics. 
 
-However, if you uncomment the relevant lines in the notebooks, they will
-look in subdirectory data/metricOutputs in the repository.
+However, if you uncomment the relevant lines in the notebooks, they
+will look in subdirectory data/metricOutputs in the repository. This
+is handy if you want other users to be able to use your pre-computed
+metrics.
 
 There is also an output directory data/fomOutputs - however I recommend you
 test somewhere else first before making that your output directory since
