@@ -23,7 +23,7 @@ it's part of the repository.
 
 ### Handling the OpSim runs ###
 
-* The OpSim database files are large (typically 4.4G per run) so it's probably not a good idea to include them in this repository.
+* The OpSim database files are large (typically 4.4G per run) so it's probably not a good idea to include them in this repository (updating would take a long time!).
 
 * When running, I have been putting a symlink to the opsim run into the
 working directory. Something lke the following:
