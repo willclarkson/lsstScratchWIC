@@ -19,11 +19,25 @@ There is also an output directory data/fomOutputs - however I recommend you
 test somewhere else first before making that your output directory since
 it's part of the repository.
 
+### OpSim runs themselves ###
+
+When running, I put a symlink to the opsim run into the working
+directory. Something lke the following:
+
+ops2_1092_sqlite.db -> ../LocalCopies/ops2_1092_sqlite.db
+
+However this is messy... setting a variable in the notebook is preferred. 
+
+The opsim runs can be found here:
+
+[http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys]
+
 ### Suggested sequence if running from scratch ###
 
 1. **cd ./My/Test/Directory**
 
-2. Copy the two notebooks below into this working directory. Then run them:
+2. Copy the two notebooks below into this working directory. Then run
+them. 
 
 3. **TransientTest_CompareWithPanSTARRS-LikeSN2010mc.ipynb** -- computes the
 "transient" metric, for the two OpSim runs 1189 and 1092.
