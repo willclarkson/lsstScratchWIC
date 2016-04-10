@@ -5,7 +5,7 @@ be run to recover complicated population X on the sky, from OpSim run
 Z.
 
 **Motivation:** In discussion, it seems clear that FoM's like random
-  and statistical error on derived astrophysical (population)
+  and systematic error on derived astrophysical (population)
   parameters are likely to be most persuasively conveyed as the output
   of some kind of Monte Carlo for the FoM, with the various
   complications and choices depending on the science case.
@@ -45,4 +45,3 @@ simulate populations that they want to plug in.
 
 * Repeat the above for example OpSim runs (with and without good plane coverage). Fill in the comparison in the relevant Table in the LSST Whitepaper. 
 
-* The readers then realize that all LSST time should be pointed at the plane and adjust their strategy accordingly, along with large amounts of funding to GP investigators.
