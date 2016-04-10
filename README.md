@@ -21,19 +21,26 @@ it's part of the repository.
 
 ### OpSim runs themselves ###
 
-When running, I put a symlink to the opsim run into the working
-directory. Something lke the following:
+* When running, I have been putting a symlink to the opsim run into the
+working directory. Something lke the following:
 
 ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCopies/ops2_1092_sqlite.db
 
-Within the notebook, the syntax to call the run then looks like:
-runName1092 = 'ops2_1092'
+* However this is messy. The notebooks are being updated with an
+additional way to do this (uncomment the line that points to the
+location where you have downloaded the opsim runs). To be finished.
+
+* Within the notebook, the syntax to input the opsim choice into the
+metric lookslike the following: 
+
+runName1092 = 'ops2_1092' 
+
 opsdb1092 = db.OpsimDatabase(runName1092 + '_sqlite.db')
 
 (Note that runName1092 gets sent to the metric object, and it is the
 string in brackets that sets the input path).
 
-The opsim runs can be found here:
+* The opsim runs can be found here:
 
 [http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys]
 
