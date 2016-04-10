@@ -17,7 +17,18 @@ There is also an output directory data/fomOutputs - however I recommend you
 test somewhere else first before making that your output directory since
 it's part of the repository.
 
-### Notes ###
+### Suggested sequence if running from scratch ###
+
+1. **cd ./My/Test/Directory**
+
+2. **TransientTest_CompareWithPanSTARRS-LikeSN2010mc** -- computes the
+"transient" metric, for the two OpSim runs 1189 and 1092.
+
+3. **FigureOfMerit_4p3_Galactic_Supernova** -- computes the density
+metric for 1189 and 1092, then reads them back in (along with the
+transient metrics) to compute the figure of merit.
+
+### History ###
 
 **2016-04-10:** Updated with consistent paths, and the precomputed metrics
 for the "Galactic Supernova" case have been added to the data/metricOutputs
