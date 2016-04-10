@@ -26,9 +26,10 @@ working directory. Something lke the following:
 
 ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCopies/ops2_1092_sqlite.db
 
-* However this is messy. The notebooks are being updated with an
-additional way to do this (uncomment the line that points to the
-location where you have downloaded the opsim runs). To be finished.
+* However this is messy. You can also set variable "opsimDir" in the
+  notebooks to point to the location you stored the opsim _sqlite.db
+  files on your system. It should be obvious from each notebook where
+  that happens, ask me (WIC) if not!
 
 * Within the notebook, the syntax to input the opsim choice into the
 metric lookslike the following: 
