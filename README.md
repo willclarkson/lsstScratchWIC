@@ -7,7 +7,8 @@ precomputed metrics are set (if you are using precomputed metrics).
 
 ### sims_maf and maf_contrib ###
 
-You will also need to have sims_maf and maf_contrib installed on your
+If you want to run the metrics that go into the figure of merit, you
+will also need to have sims_maf and maf_contrib installed on your
 system. Instructions for installing both are at the following link:
 
 <a href="https://community.lsst.org/t/up-and-running-with-sims-maf-contrib/383" target="_blank">https://community.lsst.org/t/up-and-running-with-sims-maf-contrib/383</a>
