@@ -2,13 +2,18 @@
 
 Notebooks, random calculations along the way to LSST figures of merit.
 
+The notebooks should now all work "out of the box," once the paths to
+precomputed metrics are set (if you are using precomputed metrics).
+
 ### Data and paths ###
 
 The notebooks should now all work "out of the box."
 
-By default, the notebooks look in subdirectory
-data/metricOutputs for metrics to load and combine (if you uncomment the
-relevant lines in those notebooks).
+Be default, the notebooks all look in subdirectories of the working
+directory for the precomputed metrics. 
+
+However, if you uncomment the relevant lines in the notebooks, they will
+look in subdirectory data/metricOutputs in the repository.
 
 There is also an output directory data/fomOutputs - however I recommend you
 test somewhere else first before making that your output directory since
