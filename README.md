@@ -113,7 +113,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf
 
-**2. sims_maf**
+**2. maf_contrib**
 
 * Navigate your browser to
   https://github.com/LSST-nonproject/sims_maf_contrib and take a look
@@ -125,8 +125,8 @@ install instructions linked to above. In order:
 
 * If you haven't already: source /Applications/anaconda/bin/eups-setups.csh
 
-* eups declare -r . -t $USER
-  * apparently only needs to be done once. 
+* eups declare -r . -t $USER 
+  * Apparently only needs to be done once on install. When running later, you won't need to do this again.
 
 * setup sims_maf_contrib -t $USER -t sims
 
@@ -140,7 +140,7 @@ end of my ~/.tcshrc file:
 
 **4. Running sims_maf and maf_contrib**
 
-* Go to a scratch location on your system
+* cd to some test directory on your system.
 
 * cp -p /path/to/maf_contrib/tutorials/Getting_MAF_Help.ipynb
 
@@ -153,6 +153,12 @@ end of my ~/.tcshrc file:
 * Now try the notebook! 
   * jupyter notebook Getting_MAF_Help.ipynb
 
+**5. jupyter notebook vs ipython notebook**
+
+On my system, trying to run ipython notebook resulted in a deprecation warning and a delayed launch. Jupyter seems to be preferred. To install it:
+* conda install jupyter
+
+If your PATH includes your anaconda installation, then that should be all you need to run jupyter from the command line.
 
 ### History ###
 
