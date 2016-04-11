@@ -104,7 +104,7 @@ Note that there might be special difficulties with El Captan, I
 haven't tried on that OS yet. The following steps are in the official
 install instructions linked to above. In order:
 
-**1. lsst-sims**
+**1. Installing lsst-sims or lsst-sims-maf**
 
 * conda config --add channels http://eupsforge.net/conda/dev
 
@@ -120,7 +120,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf
 
-**2. maf_contrib**
+**2. Installing maf_contrib**
 
 * Navigate your browser to
   https://github.com/LSST-nonproject/sims_maf_contrib and take a look
