@@ -2,13 +2,14 @@
 
 Notebooks, random calculations along the way to LSST figures of merit.
 
-~~The notebooks should now all work "out of the box," once the paths to
-precomputed metrics are set (if you are using precomputed metrics).~~
-**Update 2016-04-11:** OpSim runs from 2016 January onwards have
-different column definitions, and MAF has been updated to follow the
-new convention. This breaks backwards compatibility, which means the
-material here will not work with MAF. I will have to update all this
-to follow the new convention.
+~~The notebooks should now all work "out of the box," once the paths
+to precomputed metrics are set (if you are using precomputed
+metrics).~~ **Update 2016-04-11:** OpSim runs from 2016 January
+onwards have different column definitions, and MAF has been updated to
+follow the new convention. This breaks backwards compatibility, which
+means the material here will not work with MAF installed after about
+Dec 2015 or with 2016's OpSim runs. I will have to update all this to
+follow the new convention.
 
 For the moment, if you have a version of MAF before about December
 2015, and the older OpSim runs listed below, this all *should* still
