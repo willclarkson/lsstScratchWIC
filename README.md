@@ -15,10 +15,10 @@ For the moment, however, if you have a version of MAF before about
 December 2015, and the older OpSim runs listed below, this all
 *should* still work OK. 
 
-I *think* the notebook FigureOfMerit_4p3_Galactic_Supernova.ipynb
-should still work if you use pre-computed metrics rather than rerunning the
-metrics (i.e. set topDir and skip past the subsection running the
-metrics).
+Even if you are using 2016-era MAF, I *think* the notebook
+FigureOfMerit_4p3_Galactic_Supernova.ipynb should still work if you
+use pre-computed metrics rather than rerunning the metrics (i.e. set
+topDir and skip past the subsection running the metrics).
 
 ### sims_maf and maf_contrib ###
 
