@@ -93,6 +93,9 @@ Yosemite). I did the binary install using anaconda's "conda" package
 management environment. This still required updating my PATH (at the
 end of this section) but otherwise was reasonably smooth.
 
+If you are not using anaconda python, your installation steps will differ. In that case I recommend going to the following link for
+lsst-sims: https://confluence.lsstcorp.org/display/SIM/Catalogs+and+MAF
+
 Note that there might be special difficulties with El Captan, I
 haven't tried on that OS yet. The following steps are in the official
 install instructions linked to above. In order:
@@ -150,7 +153,7 @@ end of my ~/.tcshrc file:
   * setup sims_maf
   * setup sims_maf_contrib -t $USER -t sims
 
-* Now try the notebook! 
+* Now try the notebook:
   * jupyter notebook Getting_MAF_Help.ipynb
 
 **5. jupyter notebook vs ipython notebook**
