@@ -69,9 +69,7 @@ string in brackets that sets the input path).
 
 ### Where to get the OpSim runs ###
 
-* The **OLD** opsim runs that I used can be found here...
-
-http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
+* The **OLD** opsim runs that I used can be found here... http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
 
 * **... however you almost certainly want the new ones, with which the
   current version of sims-maf is compatible:**
