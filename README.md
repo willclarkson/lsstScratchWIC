@@ -97,7 +97,7 @@ Note that there might be special difficulties with El Captan, I
 haven't tried on that OS yet. The following steps are in the official
 install instructions linked to above. In order:
 
-** lsst-sims **
+**1. lsst-sims**
 
 * conda config --add channels http://eupsforge.net/conda/dev
 
@@ -113,7 +113,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf
 
-** sims_maf **
+**2. sims_maf**
 
 * Navigate your browser to
   https://github.com/LSST-nonproject/sims_maf_contrib and take a look
@@ -130,7 +130,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf_contrib -t $USER -t sims
 
-** Setting the PATH **
+**3. Setting the PATH**
 
 On my system, importing lsst.sims.maf failed because anaconda python
 was not in the PATH on my system. I had to put the following at the
@@ -138,7 +138,7 @@ end of my ~/.tcshrc file:
 
 * setenv PATH /Applications/anaconda/bin:${PATH}
 
-** Running sims_maf and maf_contrib **
+**4. Running sims_maf and maf_contrib**
 
 * Go to a scratch location on your system
 
