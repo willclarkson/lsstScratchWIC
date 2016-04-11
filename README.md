@@ -24,9 +24,8 @@ topDir and skip past the subsection running the metrics).
 
 If you want to run the metrics that go into the figure of merit, you
 will also need to have sims_maf and maf_contrib installed on your
-system. Instructions for installing both are at the following link:
-
-<a href="https://community.lsst.org/t/up-and-running-with-sims-maf-contrib/383" target="_blank">https://community.lsst.org/t/up-and-running-with-sims-maf-contrib/383</a>
+system. Instructions for installing both are provided a little lower
+down in this README.
 
 ### Data and paths ###
 
