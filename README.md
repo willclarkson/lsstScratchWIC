@@ -8,12 +8,12 @@ metrics).~~ **Update 2016-04-11:** OpSim runs from 2016 January
 onwards have different column definitions, and MAF has been updated to
 follow the new convention. This breaks backwards compatibility, which
 means the material here will not work with MAF installed after about
-Dec 2015 or with 2016's OpSim runs. I will have to update all this to
-follow the new convention.
+Dec 2015 or with 2016's OpSim runs. I will have to update the
+notebooks in this repository to follow the new convention.
 
-For the moment, if you have a version of MAF before about December
-2015, and the older OpSim runs listed below, this all *should* still
-work OK.
+For the moment, however, if you have a version of MAF before about
+December 2015, and the older OpSim runs listed below, this all
+*should* still work OK.
 
 ### sims_maf and maf_contrib ###
 
