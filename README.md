@@ -86,6 +86,74 @@ them.
 metric for 1189 and 1092, then reads them back in (along with the
 transient metrics) to compute the figure of merit.
 
+### HOWTO install sims-maf and maf_contrib, and get them working ###
+
+Here are the steps that worked on my system (2016-04-11, OS X
+Yosemite). I did the binary install using anaconda's "conda" package
+management environment. This still required updating my PATH (at the
+end of this section) but otherwise was reasonably smooth.
+
+Note that there might be special difficulties with El Captan, I
+haven't tried on that OS yet. The following steps are in the official
+install instructions linked to above. In order:
+
+** lsst-sims **
+
+* conda config --add channels http://eupsforge.net/conda/dev
+
+* conda install lsst-sims
+  * (Could also conda install lsst-sims-maf - however the full lsst-sims has Galsim included, which may prove useful).
+
+* Now locate the **eups-setups.csh** file (or .sh if on bash). It
+  should be in the bin/ subdirectory of your anaconda installation. On
+  my system this was located at
+  /Applications/anaconda/bin/eups-setups.csh .
+
+* source /Applications/anaconda/bin/eups-setups.csh
+
+* setup sims_maf
+
+** sims_maf **
+
+* Navigate your browser to
+  https://github.com/LSST-nonproject/sims_maf_contrib and take a look
+  at the contents.
+
+* git clone git@github.com:LSST-nonproject/sims_maf_contrib.git
+
+* cd sims_maf_contrib
+
+* If you haven't already: source /Applications/anaconda/bin/eups-setups.csh
+
+* eups declare -r . -t $USER
+  * apparently only needs to be done once. 
+
+* setup sims_maf_contrib -t $USER -t sims
+
+** Setting the PATH **
+
+On my system, importing lsst.sims.maf failed because anaconda python
+was not in the PATH on my system. I had to put the following at the
+end of my ~/.tcshrc file:
+
+* setenv PATH /Applications/anaconda/bin:${PATH}
+
+** Running sims_maf and maf_contrib **
+
+* Go to a scratch location on your system
+
+* cp -p /path/to/maf_contrib/tutorials/Getting_MAF_Help.ipynb
+
+* Either run the following commands one by one, or put them into a
+  shell script that you can call at your convenience:
+  * source /Applications/anaconda/bin/eups-setups.csh
+  * setup sims_maf
+  * setup sims_maf_contrib -t $USER -t sims
+
+* Now try the notebook! 
+  * jupyter notebook Getting_MAF_Help.ipynb
+
+
 ### History ###
 
 **2016-04-10:** Updated with consistent paths, and the precomputed metrics
