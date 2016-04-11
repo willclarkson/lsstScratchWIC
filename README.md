@@ -69,7 +69,7 @@ string in brackets that sets the input path).
 
 ### Where to get the OpSim runs ###
 
-* The **OLD** opsim runs can be found here...
+* The **OLD** opsim runs that I used can be found here...
 
 http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
 
