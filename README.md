@@ -67,12 +67,14 @@ opsdb1092 = db.OpsimDatabase(runName1092 + '_sqlite.db')
 (Note that runName1092 gets sent to the metric object, and it is the
 string in brackets that sets the input path).
 
+### Where to get the OpSim runs ###
+
 * The **OLD** opsim runs can be found here...
 
 http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
 
-* ... however you almost certainly want the new ones, with which the
-  current version of sims-maf is compatible:
+* **... however you almost certainly want the new ones, with which the
+  current version of sims-maf is compatible:**
 
 http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys
 
