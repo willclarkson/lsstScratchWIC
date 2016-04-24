@@ -188,9 +188,9 @@ If your PATH includes your anaconda installation, then that should be all you ne
 
 ### 7. HOWTO get the github version of sims_maf working on your system ###
 
-WIC 2016-04-24: For some reason conda is not upating sims_maf past
+**WIC 2016-04-24:** For some reason conda is not upating sims_maf past
 version 2.0.1.5 on my system, and version sims_2.2.4 is needed to
-apply certain Parallax metrics on the 2016 runs. I therefore needed to
+apply certain parallax metrics on the 2016 runs. I therefore needed to
 use the github version of sims_maf. 
 
 Since that failed to work out of the box on my system - but there is a
