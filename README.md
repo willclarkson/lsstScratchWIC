@@ -79,7 +79,9 @@ like the following:
 *runNamePSlike = 'minion_1020'
 
 *opsdbPSlike = db.OpsimDatabase(opsimDir + '/' + runNamePSlike + '_sqlite.db')
+
 *outDirPSlike = '%s/TransientsLike2010mc_PSlike' % (outDir)
+
 *resultsDbPSlike = db.ResultsDb(outDir=outDirPSlike)
 
 (Note that **runNamePSlike** gets sent to the metric object, and it is the
