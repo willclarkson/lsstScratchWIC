@@ -16,8 +16,9 @@ figures of merit reasonably quickly.
 to precomputed metrics are set (if you are using precomputed
 metrics).~~ **Update 2016-04-11:** OpSim runs from 2016 January
 onwards have different column definitions, and MAF has been updated to
-follow the new convention. The routines in **python/** and
-**notebooks/** should work with the 2016-era OpSim and sims_maf.
+follow the new convention. The result is not backwards-compatible. The
+routines in **python/** and **notebooks/** in this repository should
+work with the 2016-era OpSim and sims_maf.
 
 Some of the notebooks and python for the pre-2016 versions are in
 subdirectories **python/legacy/** and **notebooks/legacy/**. If you
