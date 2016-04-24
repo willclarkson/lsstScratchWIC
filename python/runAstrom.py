@@ -9,6 +9,9 @@
 ### delete the old settings, just re-defined them in subsequent
 ### lines. I make no guarantees that the result will be easy to read.
 
+#### Just as a point of reference, running this all through once took
+#### 228 minutes on my 2013-era Macbook Air (4GB, 1.7 GHz).
+
 import matplotlib.pyplot as plt
 import lsst.sims.maf.db as db
 import lsst.sims.maf.metrics as metrics
