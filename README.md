@@ -216,7 +216,8 @@ To test, in a new shell try:
 
 * setup sims_maf -t $USER
 
-* In your ipython shell or notebook: from lsst.sims.maf.metrics import calibrationMetrics
+* In your ipython shell or notebook: 
+  * from lsst.sims.maf.metrics import calibrationMetrics
 
 On my system this initially failed, because **version.py** was missing
 from the github version. ("No module named version" in the error
@@ -249,7 +250,8 @@ At this point, the import should work fine. Try testing again in a new shell:
 
 * setup sims_maf -t $USER
 
-* In your ipython shell or notebook: from lsst.sims.maf.metrics import calibrationMetrics
+* In your ipython shell or notebook: 
+  * from lsst.sims.maf.metrics import calibrationMetrics
 
 ... and all should be well.
 
