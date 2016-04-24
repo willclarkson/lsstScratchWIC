@@ -76,13 +76,13 @@ ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCo
 metric and then send the output into some preferred location, looks
 like the following:
 
-*runNamePSlike = 'minion_1020'
+runNamePSlike = 'minion_1020'
 
-*opsdbPSlike = db.OpsimDatabase(opsimDir + '/' + runNamePSlike + '_sqlite.db')
+opsdbPSlike = db.OpsimDatabase(opsimDir + '/' + runNamePSlike + '_sqlite.db')
 
-*outDirPSlike = '%s/TransientsLike2010mc_PSlike' % (outDir)
+outDirPSlike = '%s/TransientsLike2010mc_PSlike' % (outDir)
 
-*resultsDbPSlike = db.ResultsDb(outDir=outDirPSlike)
+resultsDbPSlike = db.ResultsDb(outDir=outDirPSlike)
 
 (Note that **runNamePSlike** gets sent to the metric object, and it is the
 string in brackets when defining **opsdbPSlike** that sets the input path).
