@@ -16,15 +16,7 @@ figures of merit reasonably quickly.
 to precomputed metrics are set (if you are using precomputed
 metrics).~~ **Update 2016-04-11:** OpSim runs from 2016 January
 onwards have different column definitions, and MAF has been updated to
-follow the new convention. This breaks backwards compatibility, which
-means the material here will not work with MAF installed after about
-Dec 2015 or with 2016's OpSim runs. I will have to update the
-notebooks in this repository to follow the new convention.
-
-For the baseline and PanSTARRs-like surveys respectively, below is the
-name-change (for more, including small changes to column definitions, see http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys):
-* Baseline strategy: **enigma_1189** --> **minion_1016**
-* PanSTARRS-like: **ops2_1092** --> **minion_1020**
+follow the new convention. 
 
 Some of the notebooks and python for the pre-2016 versions are in
 subdirectories **python/legacy/** and **notebooks/legacy**. If you
@@ -35,6 +27,11 @@ using 2016-era MAF, I *think* the notebook
 should still work if you use pre-computed metrics rather than
 rerunning the metrics (i.e. set topDir and skip past the subsection
 running the metrics).
+
+For the baseline and PanSTARRs-like surveys respectively, below is the
+name-change (for more, including small changes to column definitions, see http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys):
+* Baseline strategy: **enigma_1189** --> **minion_1016**
+* PanSTARRS-like: **ops2_1092** --> **minion_1020**
 
 **If you want to run the metrics that go into the figure of merit, you
 will also need to have sims_maf and maf_contrib installed on your
