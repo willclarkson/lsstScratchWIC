@@ -6,9 +6,10 @@ sims_maf (confluence version), sims_maf_contrib, and the github
 version of sims_maf are in Sections 6 & 7 below of this README.**
 
 I make no claims that all these routines will work on your system!
-This is mostly a collection of routines and steps that worked for me.
+This is mostly a collection of routines and steps that worked for
+me. 
 
-### 1. Warning - changes in OpSim runs ###
+### 1. Reminder/warning - changes in OpSim runs since 2015 ###
 
 ~~The notebooks should now all work "out of the box," once the paths
 to precomputed metrics are set (if you are using precomputed
@@ -25,23 +26,21 @@ name-change (for more, including small changes to column definitions, see http:/
 * PanSTARRS-like: **ops2_1092** --> **minion_1020**
 
 Some of the notebooks and python for the pre-2016 versions are in
-subdirectories **python/legacy/** and **notebooks/legacy**. If you have a
-version of MAF before about December 2015, and the older OpSim runs
-listed below, those all *should* still work OK.
+subdirectories **python/legacy/** and **notebooks/legacy**. If you
+have a version of MAF before about December 2015, and the older OpSim
+runs listed below, those all *should* still work OK. Even if you are
+using 2016-era MAF, I *think* the notebook
+**./notebooks/legacy/FigureOfMerit_4p3_Galactic_Supernova.ipynb**
+should still work if you use pre-computed metrics rather than
+rerunning the metrics (i.e. set topDir and skip past the subsection
+running the metrics).
 
-Even if you are using 2016-era MAF, I *think* the notebook
-**./notebooks/legacy/FigureOfMerit_4p3_Galactic_Supernova.ipynb** should still work if you
-use pre-computed metrics rather than rerunning the metrics (i.e. set
-topDir and skip past the subsection running the metrics).
-
-### 2. sims_maf and maf_contrib ###
-
-If you want to run the metrics that go into the figure of merit, you
+**If you want to run the metrics that go into the figure of merit, you
 will also need to have sims_maf and maf_contrib installed on your
-system. Instructions for installing both are provided a little lower
-down in this README.
+system.** Instructions for installing both are provided a little lower
+down in this README (Sections 6 & 7).
 
-### 3. Data and paths ###
+### 2. Data and paths ###
 
 By default, the notebooks all look in subdirectories of the working
 directory for the precomputed metrics. Outputs are also by default
@@ -58,7 +57,7 @@ Figure-of-Meric outputs might go. However I recommend you test
 somewhere else first before making that your output directory since
 it's part of the repository.
 
-### 4. Handling the OpSim runs ###
+### 3. Handling the OpSim runs ###
 
 * The OpSim database files are large (typically 4.4G per run) so it's probably not a good idea to include them in this repository (updating would take a long time!).
 
@@ -85,7 +84,7 @@ resultsDbPSlike = db.ResultsDb(outDir=outDirPSlike)
 (Note that **runNamePSlike** gets sent to the metric object, and it is the
 string in brackets when defining **opsdbPSlike** that sets the input path).
 
-### 5. Where to get the OpSim runs ###
+### 4. Where to get the OpSim runs ###
 
 * The **OLD** opsim runs can be found here... http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
 
@@ -94,7 +93,7 @@ string in brackets when defining **opsdbPSlike** that sets the input path).
 
 http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys
 
-### 6. Suggested sequence if running from scratch ###
+### 5. Suggested sequence if running from scratch ###
 
 1. **cd ./My/Test/Directory**
 
