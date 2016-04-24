@@ -7,7 +7,8 @@ version of sims_maf are in Sections 6 & 7 below of this README.**
 
 I make no claims that all these routines will work on your system!
 This is mostly a collection of routines and steps that worked for
-me. 
+me. This should allow you to get up and running with metrics and
+figures of merit reasonably quickly.
 
 ### 1. Reminder/warning - changes in OpSim runs since 2015 ###
 
