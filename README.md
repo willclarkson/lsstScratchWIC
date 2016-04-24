@@ -1,9 +1,9 @@
 # lsstScratchWIC
 
 Notebooks, random calculations along the way to LSST figures of
-merit. **Installation instructions for sims_maf (confluence version),
-sims_maf_contrib, and the github version of sims_maf are provided near
-the bottom of this README**, in forms that worked on my system. 
+merit. **Installation instructions that worked on my system, for
+sims_maf (confluence version), sims_maf_contrib, and the github
+version of sims_maf are provided near the bottom of this README.**
 
 ~~The notebooks should now all work "out of the box," once the paths
 to precomputed metrics are set (if you are using precomputed
@@ -14,13 +14,18 @@ means the material here will not work with MAF installed after about
 Dec 2015 or with 2016's OpSim runs. I will have to update the
 notebooks in this repository to follow the new convention.
 
+For the baseline and PanSTARRs-like surveys respectively, below is the
+name-change (for more, including small changes to column definitions, see http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys):
+* Baseline strategy: **enigma_1189** --> **minion_1016**
+* PanSTARRS-like: **ops2_1092** --> *minion_1020**
+
 Some of the notebooks and python for the pre-2016 versions are in
-subdirectories python/legacy/ and notebooks/legacy. If you have a
+subdirectories **python/legacy/** and **notebooks/legacy**. If you have a
 version of MAF before about December 2015, and the older OpSim runs
 listed below, those all *should* still work OK.
 
 Even if you are using 2016-era MAF, I *think* the notebook
-FigureOfMerit_4p3_Galactic_Supernova.ipynb should still work if you
+**./notebooks/legacy/FigureOfMerit_4p3_Galactic_Supernova.ipynb** should still work if you
 use pre-computed metrics rather than rerunning the metrics (i.e. set
 topDir and skip past the subsection running the metrics).
 
@@ -43,8 +48,9 @@ is handy if you want other users to be able to use your pre-computed
 metrics, or if you want to replicate someone else's shared work before
 extending it to your own use-case.
 
-There is also an output directory data/fomOutputs - however I recommend you
-test somewhere else first before making that your output directory since
+This repository does have an output directory data/fomOutputs in which
+Figure-of-Meric outputs might go. However I recommend you test
+somewhere else first before making that your output directory since
 it's part of the repository.
 
 ### Handling the OpSim runs ###
@@ -62,18 +68,21 @@ ops2_1092_sqlite.db -> /Users/clarkson/Data/LSST/OpSimRuns/Runs_20151229/LocalCo
   that happens, ask me (WIC) if not!
 
 * Within the notebook, the syntax to input the opsim choice into the
-metric looks like the following: 
+metric and then send the output into some preferred location, looks
+like the following:
 
-runName1092 = 'ops2_1092' 
+runNamePSlike = 'minion_1020'
 
-opsdb1092 = db.OpsimDatabase(runName1092 + '_sqlite.db')
+opsdbPSlike = db.OpsimDatabase(opsimDir + '/' + runNamePSlike + '_sqlite.db')
+outDirPSlike = '%s/TransientsLike2010mc_PSlike' % (outDir)
+resultsDbPSlike = db.ResultsDb(outDir=outDirPSlike)
 
-(Note that runName1092 gets sent to the metric object, and it is the
-string in brackets that sets the input path).
+(Note that **runNamePSlike** gets sent to the metric object, and it is the
+string in brackets when defining **opsdbPSlike** that sets the input path).
 
 ### Where to get the OpSim runs ###
 
-* The **OLD** opsim runs that I used can be found here... http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
+* The **OLD** opsim runs can be found here... http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
 
 * **... however you almost certainly want the new ones, with which the
   current version of sims-maf is compatible:**
