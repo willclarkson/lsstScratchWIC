@@ -20,7 +20,7 @@ follow the new convention. The routines in **python/** and
 **notebooks/** should work with the 2016-era OpSim and sims_maf.
 
 Some of the notebooks and python for the pre-2016 versions are in
-subdirectories **python/legacy/** and **notebooks/legacy**. If you
+subdirectories **python/legacy/** and **notebooks/legacy/**. If you
 have a version of MAF before about December 2015, and the older OpSim
 runs listed below, those all *should* still work OK. Even if you are
 using 2016-era MAF, I *think* the notebook
@@ -29,7 +29,7 @@ should still work if you use pre-computed metrics rather than
 rerunning the metrics (i.e. set topDir and skip past the subsection
 running the metrics). 
 
-For the baseline and PanSTARRs-like surveys respectively, below is the
+For the baseline and PanSTARRS-like surveys respectively, below is the
 name-change (for more, including small changes to column definitions, see http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys):
 * Baseline strategy: **enigma_1189** --> **minion_1016**
 * PanSTARRS-like: **ops2_1092** --> **minion_1020**
@@ -95,6 +95,8 @@ string in brackets when defining **opsdbPSlike** that sets the input path).
 http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys
 
 ### 5. Suggested sequence if running from scratch ###
+
+(The specific examples are for 2015-era OpSim runs, but the principle is the same for 2016.)
 
 1. **cd ./My/Test/Directory**
 
