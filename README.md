@@ -108,8 +108,7 @@ install instructions linked to above. In order:
 
 * conda config --add channels http://eupsforge.net/conda/dev
 
-* conda install lsst-sims
-  * (Could also conda install lsst-sims-maf - however the full lsst-sims has Galsim included, which may prove useful).
+* conda install lsst-sims-maf
 
 * Now locate the **eups-setups.csh** file (or .sh if on bash). It
   should be in the bin/ subdirectory of your anaconda installation. On
@@ -167,7 +166,80 @@ On my system, trying to run ipython notebook resulted in a deprecation warning a
 
 If your PATH includes your anaconda installation, then that should be all you need to run jupyter from the command line.
 
+### HOWTO get the github version of sims_maf working on your system ###
+
+WIC 2016-04-24: For some reason conda is not upating sims_maf past
+version 2.0.1.5 on my system, and version sims_2.2.4 is needed to
+apply certain Parallax metrics on the 2016 runs. I therefore needed to
+use the github version of sims_maf. 
+
+Since that failed to work out of the box on my system - but there is a
+workaround - I provide the steps here in case they are useful to
+you. In order:
+
+* Navigate your browser to https://github.com/LSST-nonproject/sims_maf_contrib
+  * (Probably a good idea to fork if you think you will be contributing pull requests)
+
+* cd /path/to/my/github/clones
+
+* git clone the repository
+
+* cd ./sims_maf
+
+* eups declare sims_maf git -r .
+
+* eups declare sims_maf git -t $USER
+
+To test, in a new shell try:
+
+* source ~/anaconda/bin/eups-setups.csh (or your equivalent)
+
+* setup sims_maf -t $USER
+
+* In your ipython shell or notebook: from lsst.sims.maf.metrics import calibrationMetrics
+
+On my system this initially failed, because *version.py* was missing
+from the github version. ("No module named version" in the error
+message.) The canonical way to fix this:
+
+* cd /path/to/my/github/clones/sims_maf/
+
+* scons
+  * or ~/anaconda/bin/scons if you don't have scons in your path
+
+* ls /path/to/my/github/clones/sims_maf/sst/sims/maf/version.py
+
+If there is no version.py in that location, the import will probably
+fail again. On my system, *scons* failed outright. 
+
+There is a workaround, which was suggested to me by Keaton Bell: copy
+a pre-built version.py into the required location. While the version
+information will be incorrect, at least the github version of sims_maf
+will run on your system! A canned *version.py* file is included in this
+repository, in the subdirectory miscRequiredFiles/   . So:
+
+* cd /path/to/my/github/clones/sims_maf/sst/sims/maf
+
+* cp -p /path/to/my/github/clones/lsstScratchWIC/miscRequiredFiles/version.py .
+
+At this point, the import should work fine. Try testing again in a new shell:
+
+* source ~/anaconda/bin/eups-setups.csh (or your equivalent)
+
+* setup sims_maf -t $USER
+
+* In your ipython shell or notebook: from lsst.sims.maf.metrics import calibrationMetrics
+
+... and all should be well.
+
+
 ### History ###
+
+(Only changes major enough for a comment are included!)
+
+**2016-04-24:** Added runAstrom.py for the astrometry metrics in WP
+  chapter 4 for 2016, and a dummy version.py that I needed to get the
+  github version of sims_maf working on my system. README updated.
 
 **2016-04-10:** Updated with consistent paths, and the precomputed metrics
 for the "Galactic Supernova" case have been added to the data/metricOutputs

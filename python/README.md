@@ -8,3 +8,10 @@ by Peter Yoachim.
 
 * **StarCountStandalone.py** - Copy of Mike Lund's CountMetric, but with RA and DEC 
 called by keyword rather than index
+
+* **runAstrom.py** - Hacked out of Peter Yoachim's original 
+*runAstrom.py* , this runs the astrometry metrics detailed in Chapter 
+4.4 of the Whitepaper, on baseline and PanSTARRS-like opsim runs. 
+Updated for the 2016 versions of OpSim and sims_maf. * **Currently 
+requires the github version of sims_maf to work, or the latest version 
+of the confluence sims_maf.** *
