@@ -1,6 +1,6 @@
 # lsstScratchWIC
 
-Notebooks, random calculations along the way to LSST figures of
+Notebooks and calculations along the way to LSST figures of
 merit. **Installation instructions that worked on my system, for
 sims_maf (confluence version), sims_maf_contrib, and the github
 version of sims_maf are in Sections 6 & 7 below of this README.**
@@ -20,7 +20,7 @@ workaround below.
 to precomputed metrics are set (if you are using precomputed
 metrics).~~ **Update 2016-04-11:** OpSim runs from 2016 January
 onwards have different column definitions, and MAF has been updated to
-follow the new convention. The result is not backwards-compatible. The
+follow the new convention - which is not backwards compatible. The
 routines in **python/** and **notebooks/** in this repository should
 work with the 2016-era OpSim and sims_maf.
 
