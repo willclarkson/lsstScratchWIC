@@ -1,6 +1,9 @@
 # lsstScratchWIC
 
-Notebooks, random calculations along the way to LSST figures of merit.
+Notebooks, random calculations along the way to LSST figures of
+merit. **Installation instructions for sims_maf (confluence version),
+sims_maf_contrib, and the github version of sims_maf are provided near
+the bottom of this README**, in forms that worked on my system. 
 
 ~~The notebooks should now all work "out of the box," once the paths
 to precomputed metrics are set (if you are using precomputed
@@ -11,9 +14,10 @@ means the material here will not work with MAF installed after about
 Dec 2015 or with 2016's OpSim runs. I will have to update the
 notebooks in this repository to follow the new convention.
 
-For the moment, however, if you have a version of MAF before about
-December 2015, and the older OpSim runs listed below, this all
-*should* still work OK. 
+Some of the notebooks and python for the pre-2016 versions are in
+subdirectories python/legacy/ and notebooks/legacy. If you have a
+version of MAF before about December 2015, and the older OpSim runs
+listed below, those all *should* still work OK.
 
 Even if you are using 2016-era MAF, I *think* the notebook
 FigureOfMerit_4p3_Galactic_Supernova.ipynb should still work if you
@@ -198,7 +202,7 @@ To test, in a new shell try:
 
 * In your ipython shell or notebook: from lsst.sims.maf.metrics import calibrationMetrics
 
-On my system this initially failed, because *version.py* was missing
+On my system this initially failed, because **version.py** was missing
 from the github version. ("No module named version" in the error
 message.) The canonical way to fix this:
 
@@ -209,13 +213,14 @@ message.) The canonical way to fix this:
 
 * ls /path/to/my/github/clones/sims_maf/sst/sims/maf/version.py
 
-If there is no version.py in that location, the import will probably
-fail again. On my system, *scons* failed outright. 
+If the above steps produce no **version.py** in that location, the
+import will probably fail again. On my system, **scons** failed
+outright.
 
 There is a workaround, which was suggested to me by Keaton Bell: copy
-a pre-built version.py into the required location. While the version
+a pre-built **version.py** into the required location. While the version
 information will be incorrect, at least the github version of sims_maf
-will run on your system! A canned *version.py* file is included in this
+will run on your system! A canned **version.py** file is included in this
 repository, in the subdirectory miscRequiredFiles/   . So:
 
 * cd /path/to/my/github/clones/sims_maf/sst/sims/maf
