@@ -3,7 +3,12 @@
 Notebooks, random calculations along the way to LSST figures of
 merit. **Installation instructions that worked on my system, for
 sims_maf (confluence version), sims_maf_contrib, and the github
-version of sims_maf are provided near the bottom of this README.**
+version of sims_maf are in Sections 6 & 7 below of this README.**
+
+I make no claims that all these routines will work on your system!
+This is mostly a collection of routines and steps that worked for me.
+
+### 1. Warning - changes in OpSim runs ###
 
 ~~The notebooks should now all work "out of the box," once the paths
 to precomputed metrics are set (if you are using precomputed
@@ -17,7 +22,7 @@ notebooks in this repository to follow the new convention.
 For the baseline and PanSTARRs-like surveys respectively, below is the
 name-change (for more, including small changes to column definitions, see http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys):
 * Baseline strategy: **enigma_1189** --> **minion_1016**
-* PanSTARRS-like: **ops2_1092** --> *minion_1020**
+* PanSTARRS-like: **ops2_1092** --> **minion_1020**
 
 Some of the notebooks and python for the pre-2016 versions are in
 subdirectories **python/legacy/** and **notebooks/legacy**. If you have a
@@ -29,14 +34,14 @@ Even if you are using 2016-era MAF, I *think* the notebook
 use pre-computed metrics rather than rerunning the metrics (i.e. set
 topDir and skip past the subsection running the metrics).
 
-### sims_maf and maf_contrib ###
+### 2. sims_maf and maf_contrib ###
 
 If you want to run the metrics that go into the figure of merit, you
 will also need to have sims_maf and maf_contrib installed on your
 system. Instructions for installing both are provided a little lower
 down in this README.
 
-### Data and paths ###
+### 3. Data and paths ###
 
 By default, the notebooks all look in subdirectories of the working
 directory for the precomputed metrics. Outputs are also by default
@@ -53,7 +58,7 @@ Figure-of-Meric outputs might go. However I recommend you test
 somewhere else first before making that your output directory since
 it's part of the repository.
 
-### Handling the OpSim runs ###
+### 4. Handling the OpSim runs ###
 
 * The OpSim database files are large (typically 4.4G per run) so it's probably not a good idea to include them in this repository (updating would take a long time!).
 
@@ -80,7 +85,7 @@ resultsDbPSlike = db.ResultsDb(outDir=outDirPSlike)
 (Note that **runNamePSlike** gets sent to the metric object, and it is the
 string in brackets when defining **opsdbPSlike** that sets the input path).
 
-### Where to get the OpSim runs ###
+### 5. Where to get the OpSim runs ###
 
 * The **OLD** opsim runs can be found here... http://lsst.org/scientists/simulations/opsim/opsim-v332-benchmark-surveys
 
@@ -89,7 +94,7 @@ string in brackets when defining **opsdbPSlike** that sets the input path).
 
 http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys
 
-### Suggested sequence if running from scratch ###
+### 6. Suggested sequence if running from scratch ###
 
 1. **cd ./My/Test/Directory**
 
@@ -103,7 +108,7 @@ them.
 metric for 1189 and 1092, then reads them back in (along with the
 transient metrics) to compute the figure of merit.
 
-### HOWTO install sims-maf and maf_contrib, and get them working ###
+### 6. HOWTO install sims-maf and maf_contrib, and get them working ###
 
 Here are the steps that worked on my system (2016-04-11, OS X
 Yosemite). I did the binary install using anaconda's "conda" package
@@ -179,7 +184,7 @@ On my system, trying to run ipython notebook resulted in a deprecation warning a
 
 If your PATH includes your anaconda installation, then that should be all you need to run jupyter from the command line.
 
-### HOWTO get the github version of sims_maf working on your system ###
+### 7. HOWTO get the github version of sims_maf working on your system ###
 
 WIC 2016-04-24: For some reason conda is not upating sims_maf past
 version 2.0.1.5 on my system, and version sims_2.2.4 is needed to
@@ -247,7 +252,7 @@ At this point, the import should work fine. Try testing again in a new shell:
 ... and all should be well.
 
 
-### History ###
+### 8. History ###
 
 (Only changes major enough for a comment are included!)
 
