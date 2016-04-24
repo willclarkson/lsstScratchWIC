@@ -125,7 +125,7 @@ Note that there might be special difficulties with El Captan, I
 haven't tried on that OS yet. The following steps are in the official
 install instructions linked to above. In order:
 
-**1. Installing lsst-sims or lsst-sims-maf**
+**6.1. Installing lsst-sims or lsst-sims-maf**
 
 * conda config --add channels http://eupsforge.net/conda/dev
 
@@ -140,7 +140,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf
 
-**2. Installing maf_contrib**
+**6.2. Installing maf_contrib**
 
 * Navigate your browser to
   https://github.com/LSST-nonproject/sims_maf_contrib and take a look
@@ -157,7 +157,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf_contrib -t $USER -t sims
 
-**3. Setting the PATH**
+**6.3. Setting the PATH**
 
 On my system, importing lsst.sims.maf failed because anaconda python
 was not in the PATH on my system. I had to put the following at the
@@ -165,7 +165,7 @@ end of my ~/.tcshrc file:
 
 * setenv PATH /Applications/anaconda/bin:${PATH}
 
-**4. Running sims_maf and maf_contrib**
+**6.4. Running sims_maf and maf_contrib**
 
 * cd to some test directory on your system.
 
@@ -180,7 +180,7 @@ end of my ~/.tcshrc file:
 * Now try the notebook:
   * jupyter notebook Getting_MAF_Help.ipynb
 
-**5. jupyter notebook vs ipython notebook**
+**6.5. jupyter notebook vs ipython notebook**
 
 On my system, trying to run ipython notebook resulted in a deprecation warning and a delayed launch. Jupyter seems to be preferred. To install it:
 * conda install jupyter
