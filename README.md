@@ -15,7 +15,7 @@ This is mostly a collection of routines and steps that worked for
 me. This should allow you to get up and running with metrics and
 figures of merit reasonably quickly.
 
-I Peter Yoachim for his help and considerable patience
+I thank Peter Yoachim for his help and considerable patience
 with my queries, as well as Keaton Bell for suggesting the version.py
 workaround below.
 
@@ -277,6 +277,9 @@ At this point, the import should work fine. Try testing again in a new shell:
 ### 8. History ###
 
 (Only changes major enough for a comment are included!)
+
+**2016-04-25:** Added **shellScripts** subdirectory. Scripts useful to 
+organise the output of several runs can be found there.
 
 **2016-04-24:** Added runAstrom.py for the astrometry metrics in WP
   chapter 4 for 2016, and a dummy version.py that I needed to get the
