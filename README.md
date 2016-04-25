@@ -162,7 +162,7 @@ install instructions linked to above. In order:
 
 * setup sims_maf_contrib -t $USER -t sims
   * **UPDATE 2016-04-24** - this step now no longer works on my system (the "sims" tag is invalid). I suspect I am seeing some eups-related problems on this computer. However it should work for you!
-  * Workaround: You can still use the modules in sims_maf_contrib by copying the directory into your working directory. (Adding to your $PATH probably also works, but I have not yet tested this).
+  * Workaround: You can still use the modules in sims_maf_contrib by copying the directory into your working directory. (Adding to your $PATH probably also works, but I have not yet tested this. I am hoping to get sims_maf_contrib working again properly without having to mess with the path.)
     * For example, in the FigureOfMerit notebook for the Galactic Supernova, I copied the Starcounts/ directory from sims_maf_contrib into the working directory for the notebook, and was able to use it.  
 
 
