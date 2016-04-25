@@ -1,9 +1,14 @@
 # lsstScratchWIC
 
-Notebooks and calculations along the way to LSST figures of
-merit. **Installation instructions that worked on my system, for
-sims_maf (confluence version), sims_maf_contrib, and the github
-version of sims_maf are in Sections 6 & 7 below of this README.**
+Notebooks and calculations along the way to LSST figures of merit. 
+*Installation instructions that worked on my system, for sims_maf 
+(confluence version), and the github version of sims_maf are in Sections 
+6 & 7 below of this README. The instructions for sims_maf_contrib worked 
+on my system until about two weeks ago, they should work on your 
+system.*
+
+This repository is entirely unofficial and is not connected to the LSST 
+sims_maf and maf_contrib repositories.
 
 I make no claims that all these routines will work on your system!
 This is mostly a collection of routines and steps that worked for
