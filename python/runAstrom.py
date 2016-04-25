@@ -29,12 +29,13 @@ import os, time, copy
 
 # WIC - I prefer to use this within a routine so we can test importing
 # before testing running...
-def go(nside=64, rmag=20., SedTemplate='flat', DoRun=False, LFilters = [], \
+def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
            LNightMax=[], nightMax=1e4, \
            CustomPlotLimits=True, \
            RunOne=False, MaxRuns=1e3, \
            SpatialClip=95., \
-           seeingCol='FWHMeff'):
+           seeingCol='FWHMeff', \
+           sCmap='cubehelix_r'):
 
     # Go to the directory where the sqlite databases are held...
 
@@ -110,9 +111,11 @@ def go(nside=64, rmag=20., SedTemplate='flat', DoRun=False, LFilters = [], \
 
     if CustomPlotLimits:
 
-        # All spatial maps use percentile clipping
+        # All spatial maps use percentile clipping. Also set the color map!
         for plotMetric in DPlotArgs.keys():
             DPlotArgs[plotMetric][0].defaultPlotDict['percentileClip'] = SpatialClip
+
+            DPlotArgs[plotMetric][0].defaultPlotDict['cmap'] = sCmap
 
         # Some limits common to spatial maps and histograms
         for iPl in range(0,2):
