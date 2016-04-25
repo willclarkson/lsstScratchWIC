@@ -11,7 +11,7 @@ fails, which was preventing me from running the github version of
 sims_maf at all.
 
 Apparently the **version.py** is created by **scons** during the installation 
-process of sims_maf, but that step fails on my system. **The version.py** 
+process of **sims_maf**, but that step fails on my system. **The version.py** 
 file in this directory is an example kindly supplied by Keaton Bell. I 
 have found that copying this file into the directory
 
