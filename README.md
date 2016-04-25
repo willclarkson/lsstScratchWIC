@@ -109,11 +109,12 @@ http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys
 them. 
 
 3. **TransientTest_CompareWithPanSTARRS-LikeSN2010mc.ipynb** -- computes the
-"transient" metric, for the two OpSim runs 1189 and 1092.
+"transient" metric, for the Baseline and PanSTARRS-like OpSim runs.
 
-4. **FigureOfMerit_4p3_Galactic_Supernova.ipynb** -- computes the density
-metric for 1189 and 1092, then reads them back in (along with the
-transient metrics) to compute the figure of merit.
+4. **FigureOfMerit_4p3_Galactic_Supernova.ipynb** -- computes the
+density metric for Baseline and PanSTARRS strategies, then reads them
+back in (along with the transient metrics) to compute the figure of
+merit.
 
 ### 6. HOWTO install sims-maf and maf_contrib, and get them working ###
 
@@ -160,6 +161,9 @@ install instructions linked to above. In order:
   * Apparently only needs to be done once on install. When running later, you won't need to do this again.
 
 * setup sims_maf_contrib -t $USER -t sims
+  * **UPDATE 2016-04-24** - this step now no longer works on my system (the "sims" tag is invalid). I suspect I am seeing some eups-related problems on this computer. However it should work for you!
+  * If sims_maf_contrib does not work, you can still use the modules by copying the directory into your working directory. Clunky but functional. For example, in the FigureOfMerit notebook for the Galactic Supernova, I copied the Starcounts/ directory from sims_maf_contrib into the working directory for the notebook, and was able to use it.  
+
 
 **6.3. Setting the PATH**
 
