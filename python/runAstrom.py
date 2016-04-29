@@ -62,6 +62,12 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
                      1e4, 1e4, 1e4, 1e4, \
                      1e4, 1e4]
 
+    # WIC try again, this time on the new astro_lsst_01_1004 only
+    LFilters = ['', '', '', 'u', 'y']  
+    LNightMax = [365, 730, 1e4, 1e4, 1e4]
+    runNames = ['astro_lsst_01_1004' for i in range (len(LFilters)) ]
+
+
     # List of upper limits to parallax and proper motion error. For parallax, 3.0 mas is probably good
     LUpperParallax = []
     LUpperPropmotion = []
