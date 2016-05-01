@@ -10,6 +10,16 @@
 ###
 ### runAstrom.go(DoRun=True, checkCorrKind=True)
 
+### ---
+
+### wfdPlane added as an argument. To do all three runs in Observing
+### Strategy Chapter 4, do the following:
+
+### for wfd in [False, True]:
+####      runAstrom(go=True, wfd)
+
+### ---
+
 ### NOTES 2016-04-23 This is a sequence of updates that I made while
 ### testing under various circumstances. In many cases I did not
 ### delete the old settings, just re-defined them in subsequent
@@ -42,7 +52,8 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
            SpatialClip=95., \
            seeingCol='FWHMeff', \
            sCmap='cubehelix_r', \
-           checkCorrKind=False):
+           checkCorrKind=False, \
+           wfdPlane=True):
 
     # Go to the directory where the sqlite databases are held...
 
@@ -70,9 +81,10 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
                      1e4, 1e4]
 
     # WIC try again, this time on the new astro_lsst_01_1004 only
-    LFilters = ['', '', '', 'u', 'y']  
-    LNightMax = [365, 730, 1e4, 1e4, 1e4]
-    runNames = ['astro_lsst_01_1004' for i in range (len(LFilters)) ]
+    if wfdPlane:
+        LFilters = ['', '', '', 'u', 'y']  
+        LNightMax = [365, 730, 1e4, 1e4, 1e4]
+        runNames = ['astro_lsst_01_1004' for i in range (len(LFilters)) ]
 
     # WIC 2016-05-01 check correlation
     if checkCorrKind:
