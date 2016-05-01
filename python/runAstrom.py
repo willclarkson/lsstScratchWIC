@@ -4,6 +4,12 @@
 ###
 ### with loops shoved in to run a set of cases for LSST whitepaper.
 
+### Tweaks 2016-05-01: try using spearman-r and pearson-r for two year
+### metrics to address suggestion from Monet. To achieve this, use the
+### following arguments:
+###
+### runAstrom.go(DoRun=True, checkCorrKind=True)
+
 ### NOTES 2016-04-23 This is a sequence of updates that I made while
 ### testing under various circumstances. In many cases I did not
 ### delete the old settings, just re-defined them in subsequent
@@ -35,7 +41,8 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
            RunOne=False, MaxRuns=1e3, \
            SpatialClip=95., \
            seeingCol='FWHMeff', \
-           sCmap='cubehelix_r'):
+           sCmap='cubehelix_r', \
+           checkCorrKind=False):
 
     # Go to the directory where the sqlite databases are held...
 
@@ -67,7 +74,15 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
     LNightMax = [365, 730, 1e4, 1e4, 1e4]
     runNames = ['astro_lsst_01_1004' for i in range (len(LFilters)) ]
 
+    # WIC 2016-04-29 do just one run here...
+    LFilters = ['', '']
+    LNightMax = [730, 730]
+    runNames = ['minion_1016', 'minion_1016']
 
+    # Type of correlation used for HA Degen
+    # checkCorrKind = True
+    useSpearmanR = [False, True]
+    
     # List of upper limits to parallax and proper motion error. For parallax, 3.0 mas is probably good
     LUpperParallax = []
     LUpperPropmotion = []
@@ -84,11 +99,16 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
                                 3.5, 20, 3.5, 20, \
                                 0.5, 5]
 
+        if len(runNames) < 2:
+            LUpperPropmotion = [100 for i in range(len(runNames))]
 
     print "runAstrom.go INFO - will run the following:"
     for iSho in range(len(runNames)):
         print "%i: %-12s, %1s, %i" % (iSho, runNames[iSho], LFilters[iSho], LNightMax[iSho])
     print "==========================="
+
+    print "mag max = %.2f" % (rmag)
+    print "---------------------------"
 
 #    print runNames
 #    if not DoRun:
@@ -237,6 +257,16 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
         if CustomPlotLimits:
             outDir = '%s_lims' % (outDir)
 
+        # if we are testing the kind of correlation used, include that
+        # in the output here.
+        if checkCorrKind:
+            if useSpearmanR[iRun]:
+                sCorr = 'spearmanR'
+            else:
+                sCorr = 'pearsonR'
+        
+            outDir = '%s_%s' % (outDir, sCorr)
+
         # From this point onwards, stuff actually gets run. This is
         # the place to output what will actually happen next.
         print "runAstrom.go INFO - about to run:"
@@ -294,7 +324,18 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
                                                 summaryMetrics=summaryMetrics)
         bundleList.append(bundle)
 
+        # Now for the HA Degen metric. If testing the type of
+        # correlation, call the metric differently here. Since the
+        # argument to actually do this is only part of my github fork
+        # at the moment, we use a different call. Running with default
+        # arguments (checkCorrKind=False) should then work without
+        # difficulty.
         metric = calibrationMetrics.ParallaxHADegenMetric(rmag=rmag, seeingCol=seeingCol, SedTemplate=SedTemplate)
+        if checkCorrKind:
+            metric = calibrationMetrics.ParallaxHADegenMetric(rmag=rmag, seeingCol=seeingCol, SedTemplate=SedTemplate, useSpearmanR=useSpearmanR[iRun])
+            print "TESTING CORRELATION KIND -- useSpearmanR", useSpearmanR[iRun]
+            
+
         bundle = metricBundles.MetricBundle(metric, slicer, sqlconstraint, runName=run,
 #                                            plotFuncs=plotFuncs, \
                                                 plotFuncs=plotFuncsHAdegen, \
