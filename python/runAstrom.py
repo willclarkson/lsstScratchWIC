@@ -74,24 +74,27 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
     LNightMax = [365, 730, 1e4, 1e4, 1e4]
     runNames = ['astro_lsst_01_1004' for i in range (len(LFilters)) ]
 
-    # WIC 2016-04-29 do just one run here...
-    LFilters = ['', '']
-    LNightMax = [730, 730]
-    runNames = ['minion_1016', 'minion_1016']
+    # WIC 2016-05-01 check correlation
+    if checkCorrKind:
+        LFilters = ['', '']
+        LNightMax = [365, 365]
+        runNames = ['minion_1016', 'minion_1016']
 
-    # Type of correlation used for HA Degen
-    # checkCorrKind = True
-    useSpearmanR = [False, True]
+        # Type of correlation used for HA Degen 
+        # checkCorrKind = True
+        useSpearmanR = [False, True]
     
     # List of upper limits to parallax and proper motion error. For parallax, 3.0 mas is probably good
     LUpperParallax = []
     LUpperPropmotion = []
+
 
     if CustomPlotLimits:
     
         LUpperParallax = [10, 10, 10, 10, \
                               10, 10, 40, 40, \
                               3.0, 3.0 ]
+
     
         # For proper motion, it's a little tricky to say because the
         # regular case is so pathological for the field. Try the following:
@@ -137,22 +140,35 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
 
     if CustomPlotLimits:
 
-        # All spatial maps use percentile clipping. Also set the color map!
+        # Use the same color map for all the metrics
         for plotMetric in DPlotArgs.keys():
-            DPlotArgs[plotMetric][0].defaultPlotDict['percentileClip'] = SpatialClip
-
             DPlotArgs[plotMetric][0].defaultPlotDict['cmap'] = sCmap
+
+
+        # Apply spatial clipping for all but the HADegen, for which we
+        # have other limits...
+        for plotMetric in ['parallax', 'propmotion', 'coverage']:
+            DPlotArgs[plotMetric][0].defaultPlotDict['percentileClip'] = SpatialClip
 
         # Some limits common to spatial maps and histograms
         for iPl in range(0,2):
             DPlotArgs['propmotion'][iPl].defaultPlotDict['logScale'] = True
-            
+
+        # NOT a loop because we might want to separate out the behavior
+
         # Standardized range for the histograms for new parallax metrics
         DPlotArgs['coverage'][1].defaultPlotDict['xMin'] = 0.
         DPlotArgs['coverage'][1].defaultPlotDict['xMax'] = 1.
         DPlotArgs['HAdegen'][1].defaultPlotDict['xMin'] = -1.
         DPlotArgs['HAdegen'][1].defaultPlotDict['xMax'] =  1.
             
+        # Standardize the sky map for the HAdegen as well.
+        DPlotArgs['coverage'][1].defaultPlotDict['xMin'] = 0.
+        DPlotArgs['coverage'][1].defaultPlotDict['xMax'] = 1.
+        DPlotArgs['HAdegen'][0].defaultPlotDict['xMin'] = -1.
+        DPlotArgs['HAdegen'][0].defaultPlotDict['xMax'] =  1.
+
+
         # Standardize at least the lower bound of the histogram in
         # both the proper motion and parallax errors. Upper limit we
         # can customize with a loop.
