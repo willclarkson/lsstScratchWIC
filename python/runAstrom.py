@@ -4,6 +4,8 @@
 ###
 ### with loops shoved in to run a set of cases for LSST whitepaper.
 
+### This is in somewhat dire need of a refactoring...
+
 ### Tweaks 2016-05-01: try using spearman-r and pearson-r for two year
 ### metrics to address suggestion from Monet. To achieve this, use the
 ### following arguments:
@@ -53,7 +55,8 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
            seeingCol='FWHMeff', \
            sCmap='cubehelix_r', \
            checkCorrKind=False, \
-           wfdPlane=True):
+           wfdPlane=True, \
+           useGRIZ=False):
 
     # Go to the directory where the sqlite databases are held...
 
@@ -96,6 +99,11 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
         # checkCorrKind = True
         useSpearmanR = [False, True]
     
+    if useGRIZ:
+        runNames=['minion_1016','astro_lsst_01_1004', 'minion_1020']
+        LFilters = ['griz' for iRun in range(len(runNames)) ]
+        LNightMax = [365 for iRun in range(len(runNames)) ]
+
     # List of upper limits to parallax and proper motion error. For parallax, 3.0 mas is probably good
     LUpperParallax = []
     LUpperPropmotion = []
@@ -119,7 +127,12 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
 
     print "runAstrom.go INFO - will run the following:"
     for iSho in range(len(runNames)):
-        print "%i: %-12s, %1s, %i" % (iSho, runNames[iSho], LFilters[iSho], LNightMax[iSho])
+        sFilThis = ''
+        # print iSho, len(LFilters)
+        if iSho <= len(LFilters):
+            sFilThis = sqlFromFilterString(LFilters[iSho])
+
+        print "%i: %-12s, %1s, %i, sqlFilter -- %s" % (iSho, runNames[iSho], LFilters[iSho], LNightMax[iSho], sFilThis)
     print "==========================="
 
     print "mag max = %.2f" % (rmag)
@@ -257,9 +270,13 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
         if len(LFilters) == len(runNames):
 
             # Only change the filter if one was actually supplied!
-            if len(LFilters[iRun]) == 1:
+            if len(LFilters[iRun]) > 0:
                 ThisFilter = LFilters[iRun]
-                sqlconstraint = 'filter = "%s"' % (ThisFilter)
+
+                sqlconstraint = sqlFromFilterString(ThisFilter)
+
+###                sqlconstraint = 'filter = "%s"' % (ThisFilter)
+
 
         # If nightmax was supplied, use it 
         ThisNightMax = int(nightMax)  # copy not view
@@ -389,3 +406,33 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
         
 
     print "Finished entire set. %i runs took %.2f minutes." % (iRun + 1, (time.time()-tStart)/60.)
+
+
+
+def sqlFromFilterString(sIn='', sNoConstraint='ugrizy'):
+
+    """Returns sql constraint string from input filter set"""
+
+    sqlFilt = ''
+
+    # return default if nothing set
+    if len(sIn) < 1 or len(sIn) >= len(sNoConstraint):
+        return sqlFilt
+
+    # need to think about the parentheses
+    if len(sIn) > 1:
+        sqlFilt = '('
+
+    for iFilt in range(len(sIn)):
+        sqlThis = 'filter = "%s"' % (sIn[iFilt])
+        
+        if len(sqlFilt) < 2:
+            sqlFilt = '%s%s' % (sqlFilt, sqlThis[:])
+        else:
+            sqlFilt = '%s or %s' % (sqlFilt, sqlThis)
+            
+    # close the parentheses
+    if sqlFilt.find('(') > -1:
+        sqlFilt = '%s)' % (sqlFilt)
+
+    return sqlFilt
