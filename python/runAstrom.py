@@ -16,7 +16,7 @@
 ### Strategy Chapter 4, do the following:
 
 ### for wfd in [False, True]:
-####      runAstrom(go=True, wfd)
+####      runAstrom(go=True, wfdPlane=wfd)
 
 ### ---
 
