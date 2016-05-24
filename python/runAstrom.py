@@ -102,7 +102,10 @@ def go(nside=64, rmag=21., SedTemplate='flat', DoRun=False, LFilters = [], \
     if useGRIZ:
         runNames=['minion_1016','astro_lsst_01_1004', 'minion_1020']
         LFilters = ['griz' for iRun in range(len(runNames)) ]
+        #LNightMax = [1e4 for iRun in range(len(runNames)) ]
+        #LNightMax = [730 for iRun in range(len(runNames)) ]
         LNightMax = [365 for iRun in range(len(runNames)) ]
+
 
     # List of upper limits to parallax and proper motion error. For parallax, 3.0 mas is probably good
     LUpperParallax = []
