@@ -263,6 +263,7 @@ class SimSamples(object):
 
         # For first-order, let's just try a flat error
         self.uncPM = 0.2 # mas/yr, be optimistic
+        self.uncFeH = 0.2 # dex
         self.useFlatUncertainty = True
 
         # Data - solar galactocentric radius 
@@ -338,6 +339,19 @@ class SimSamples(object):
 
         self.tSim['vPhiObs'] = self.tSim['vPhi'] + deltaV
 
+    def assignObsFeH(self):
+
+        """Assigns flat metallicity error"""
+
+        deltaFeH = np.zeros(len(self.tSim))
+
+        if self.useFlatUncertainty:
+            deltaFeH = np.random.normal(size=len(self.tSim)) \
+                * self.uncFeH + 0.
+
+        self.tSim['FeHObs'] = self.tSim['FeH'] + deltaFeH
+       
+
     def selectAsL11(self):
 
         """Applies the same selection criteria as Loebman et al. 2011
@@ -379,7 +393,7 @@ class SimSamples(object):
         # may as well loop through!!
 
         # View of what we're using for our vertical quantity
-        x = self.tSim['FeH']
+        x = self.tSim['FeHObs']
         y = self.tSim[yKey]
 
         nStrips = np.size(self.stripsFeH) - 1
@@ -544,7 +558,9 @@ def asciiToFits():
     CA.simToTable()
 
 
-def testSimCalc(nStrips=10, maxFeH=0.1, eFlat=0.2, \
+def testSimCalc(nStrips=10, maxFeH=0.1, \
+                    eFlatPM=0.2, \
+                    eFlatFeH=0.1,\
                     RMin=7., RMax=9., \
                     ZMin = 0.5, ZMax=1., \
                     AgeMin=0., AgeMax=15.):
@@ -563,7 +579,8 @@ def testSimCalc(nStrips=10, maxFeH=0.1, eFlat=0.2, \
     SS.AgeMin = AgeMin
     SS.AgeMax = AgeMax
 
-    SS.uncPM = eFlat
+    SS.uncPM = eFlatPM
+    SS.uncFeH = eFlatFeH
     SS.useFlatUncertainty=True
 
     SS.loadFitsSim()
@@ -573,6 +590,7 @@ def testSimCalc(nStrips=10, maxFeH=0.1, eFlat=0.2, \
 
     SS.assignFlatUncertainty()
     SS.assignObsVPhi()
+    SS.assignObsFeH()
 
     SS.buildStripsFeH()
     SS.getStripStatistics('vPhiObs')
