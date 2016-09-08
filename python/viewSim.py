@@ -16,7 +16,7 @@ import numpy as np
 from astropy.table import Table, Column
 from astropy.io import fits
 
-class SimSamples(object):
+class ConvertAscii(object):
 
     """Read the simulation samples and compute a few simple things"""
 
@@ -81,7 +81,7 @@ class SimSamples(object):
 
         if not os.access(self.pathSim, os.R_OK):
             if self.Verbose:
-                print "SimSamples.loadSim WARN - cannot read input path %s" \
+                print "ConvertAscii.loadSim WARN - cannot read input path %s" \
                     % (self.pathSim)
             return
 
@@ -96,13 +96,13 @@ class SimSamples(object):
 
 #        TOO SLOW        
 #        if self.Verbose:
-#            print "SimSamples.loadSim INFO - importing ascii file..."
+#            print "ConvertAscii.loadSim INFO - importing ascii file..."
 #            t0 = time.time()
 #        self.tSim=Table.read(self.pathSim, data_start=2, format='ascii')
         
 #        if self.Verbose:
 #            t1 = time.time()
-#            print "SimSamples.loadSimINFO - ... done after %.1f seconds" \
+#            print "ConvertAscii.loadSimINFO - ... done after %.1f seconds" \
 #                % (t1 - t0)
 
     def countLines(self):
@@ -208,20 +208,20 @@ def asciiToFits():
     """Reads from ascii, dumping the result to a fits file for rapid
     reading"""
 
-    SS = SimSamples()
-    SS.loadSim()
-    SS.setPathBinary()
-    SS.simToTable()
+    CA = ConvertAscii()
+    CA.loadSim()
+    CA.setPathBinary()
+    CA.simToTable()
 
 
-    #SS.dumpToFits()
+    #CA.dumpToFits()
 
 #def fitsToTable():
 
 #    """Converts the simulation from fits to fits-with-metadata"""
 
-#    SS = SimSamples()
-#    SS.loadFromFits()
-#    SS.simToTable()
-#    SS.setPathBinary()
+#    CA = ConvertAscii()
+#    CA.loadFromFits()
+#    CA.simToTable()
+#    CA.setPathBinary()
 
