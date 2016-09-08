@@ -268,9 +268,7 @@ class SimSamples(object):
 
         # Data - solar galactocentric radius 
         self.RSol = 8.0  # kpc
-
-        # self.WSol = 240. # km/s, sun's transverse velocity, not
-        # needed right now
+        self.WSol = 240. # km/s, sun's tangential velocity
 
     def loadFitsSim(self):
 
@@ -309,6 +307,14 @@ class SimSamples(object):
         vPhi = (Y*vX - X*vY) / self.tSim['R'] # same convention as SL2011
 
         self.tSim['vPhi'] = Column(vPhi, unit='km/s')
+
+    def calcProperMotion(self):
+
+        """Estimates the proper motions of the objects"""
+
+        dist = self.tSim['R'] - self.RSol
+        muL = (self.tSim['vPhi'] - self.WSol) / (4.74 * dist)
+        self.tSim['muL'] = Column(muL, unit='mas/yr')
 
     def assignFlatUncertainty(self):
 
@@ -486,15 +492,21 @@ class SimSamples(object):
                         cmap=plt.cm.get_cmap('cubehelix'), zorder=15)
         plt.colorbar()
 
-        dum = plt.hist2d(self.tSim['FeH'][self.bSel], \
-                        self.tSim[sKey][self.bSel], \
-                             bins=(75, 75), \
-                             range=[[-1.5,0.5], [-350., -50.]], \
-                             alpha=0.5, zorder=2)
-        plt.colorbar()
+        if sKey.find('Phi') > -1:
+            dum = plt.hist2d(self.tSim['FeH'][self.bSel], \
+                                 self.tSim[sKey][self.bSel], \
+                                 bins=(75, 75), \
+                                 range=[[-1.5,0.5], [-350., -50.]], \
+                                 alpha=0.5, zorder=2)
+            plt.colorbar()
 
         plt.xlim(-1.5,0.5)
-        plt.ylim(-50., -350.)
+
+        if sKey.find('Phi') > -1:
+            plt.ylim(-50., -350.)
+
+        if sKey.find('mu') > -1:
+            plt.ylim(-100., 100.)
 
         # Couple of useful pieces to just see what the various lines
         # look like over the data
@@ -569,22 +581,32 @@ def testSimCalc(nStrips=10, maxFeH=0.1, \
     columns"""
 
     SS = SimSamples()
+
+    # Set some parameters
     SS.nStripsFeH = nStrips
     SS.maxFeH = maxFeH
-
     SS.RMin = RMin
     SS.RMax = RMax
     SS.ZMin = ZMin
     SS.ZMax = ZMax
     SS.AgeMin = AgeMin
     SS.AgeMax = AgeMax
-
     SS.uncPM = eFlatPM
     SS.uncFeH = eFlatFeH
     SS.useFlatUncertainty=True
 
+    # Read the simulation
     SS.loadFitsSim()
+
+    # Calculate some intermediate columns
     SS.calcVphi()
+    SS.calcProperMotion()
+
+    #print SS.tSim
+
+    #return
+
+
     #SS.selectAsL11()
     SS.selectForFitting()
 
@@ -594,6 +616,7 @@ def testSimCalc(nStrips=10, maxFeH=0.1, \
 
     SS.buildStripsFeH()
     SS.getStripStatistics('vPhiObs')
+    #SS.getStripStatistics('muL')
 
     SS.fitBrokenToStrips()
     print "Sum-of-squares:"
