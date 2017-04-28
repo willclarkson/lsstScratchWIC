@@ -224,7 +224,7 @@ To get round the glibcc problem that occurred later on:
 
 * cd to some test directory on your system.
 
-* cp -p /path/to/maf_contrib/tutorials/Getting_MAF_Help.ipynb
+* (example notebookt to test:) cp -p /path/to/maf_contrib/tutorials/Getting_MAF_Help.ipynb .
 
 * Either run the following commands one by one, or put them into a
   shell script that you can call at your convenience:
