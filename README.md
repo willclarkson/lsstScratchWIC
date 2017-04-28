@@ -229,7 +229,6 @@ To get round the glibcc problem that occurred later on:
 * Either run the following commands one by one, or put them into a
   shell script that you can call at your convenience:
   * source ~/Soft/lsst/loadLSST.csh
-  ~~* setup lsst_distrib~~
   * setup sims_maf -t sims
   * setup sims_maf_contrib -t $USER -t sims
 
