@@ -126,63 +126,99 @@ merit.
 
 ### 6. HOWTO install sims-maf and maf_contrib, and get them working ###
 
-Here are the steps that worked on my system (2016-04-11, OS X
-Yosemite). I did the binary install using anaconda's "conda" package
-management environment. This still required updating my PATH (at the
-end of this section) but otherwise was reasonably smooth.
+**2017-04-28 Update** - the binary version of sims_maf is apparently
+  somewhat out of date; now building from source is recommended. I
+  have moved the old installation steps (for 2016) to the file
+  **installSteps2016.md** in this directory. So far I have
+  successfully installed sims_maf and maf_contrib on Mac Yosemite (OS
+  X 10.10.5) and Ubuntu Linux (16.04), although in both cases there
+  were additional steps I had to run. Those are listed below.
 
-If you are not using anaconda python, your installation steps will differ. In that case I recommend going to the following link for
-lsst-sims: https://confluence.lsstcorp.org/display/SIM/Catalogs+and+MAF
+Here are links to installation instructions from the project.
 
-Note that there might be special difficulties with El Captan, I
-haven't tried on that OS yet. The following steps are in the official
-install instructions linked to above. In order:
+LSST stack using newinstall.sh (required):
+(https://pipelines.lsst.io/install/newinstall.html)
 
-**6.1. Installing lsst-sims or lsst-sims-maf**
+LSST sims_maf (building from source recommended):
+(https://confluence.lsstcorp.org/display/SIM/Catalogs+and+MAF)
 
-* conda config --add channels http://eupsforge.net/conda/dev
+sims_maf_contrib:
+(https://github.com/LSST-nonproject/sims_maf_contrib)
 
-* conda install lsst-sims-maf
+Below are the commands I typed, in order, to install on the two
+systems to which I currently have access (OS X 10.10.5 and Ubuntu
+16.0.4).
 
-* Now locate the **eups-setups.csh** file (or .sh if on bash). It
-  should be in the bin/ subdirectory of your anaconda installation. On
-  my system this was located at
-  /Applications/anaconda/bin/eups-setups.csh .
+**6.1. Preparing for the installation (Ubuntu 16.04.2 LTS)**
 
-* source /Applications/anaconda/bin/eups-setups.csh
+Two packages on my Ubuntu system caused build errors: fftw3 and
+libgcc. The fftw3 problem broke the build from source in step 6.2
+below. The libgcc problem was more subtle - while the software built
+all the way through to the end, I got import errors when actually
+trying to run one of the analysis notebooks. Here are the steps I took
+to solve the problems:
 
-* setup sims_maf
+To install fftw3 in shared mode:
+* cd ~/Soft/
+* Download from [http://www.fftw.org/download.html](http://www.fftw.org/download.html);
+    * wget (http://www.fftw.org/fftw-3.3.6-pl2.tar.gz)    
+* To install in "shared mode" (see also (http://micro.stanford.edu/wiki/Install_FFTW3#Build_and_Install)):
+    * gunzip fftw-3.3.6-pl2.tar.gz
+    * tar -xvf fftw-3.3.6-pl2.tar
+    * cd fftw-3.3.6-pl2
+    * ./configure --enable-shared=yes --mpi=yes
+    * make 
+    * sudo make install
 
-**6.2. Installing maf_contrib**
+To get round the glibcc problem that occurred later on:
+* conda install libgcc
 
-* Navigate your browser to
-  https://github.com/LSST-nonproject/sims_maf_contrib and take a look
-  at the contents.
+**6.2. Building lsst stack from source** ([LSST instructions](https://pipelines.lsst.io/install/newinstall.html)):
 
-* git clone git@github.com:LSST-nonproject/sims_maf_contrib.git
+* mkdir ~/Soft/lsst
+
+* cd ~/Soft/lsst
+
+* unset LSST_HOME EUPS_PATH LSST_DEVEL EUPS_PKGROOT REPOSITORY_PATH
+
+* curl -OL https://raw.githubusercontent.com/lsst/lsst/13.0/scripts/newinstall.sh
+* source ./loadLSST.csh
+
+    * (Answer "yes" when prompted if you want to install miniconda)
+
+* eups distrib install lsst_apps  
+    * (installs 93 items, takes about three hours)
+
+**6.3 Preparing for and building sims_maf** ([confluence link with instructions](https://confluence.lsstcorp.org/display/SIM/Catalogs+and+MAF#CatalogsandMAF-installation)):
+
+**On OS X Yosemite (10.10.5):** Due to an astropy issue, on my OS X system the first attempt to build sims_maf failed. The second step below is the workaround to fix this. See [this issue for more.](https://community.lsst.org/t/sims-utils-2-3-4-sims-eupspkg-build-from-source-fails-os-x-10-10-5/1820)
+
+* setup lsst_distrib  
+
+* **On OS X Yosemite (10.10.5):** change log_to_file=False in file ~/.astropy/astropy.cfg (not any of the other astropy_*.cfg variants in that directory)
+
+* eups distrib install lsst_sims -t sims
+   * Installs 88 items, takes about 90 minutes. The astropy file issue I was finding, hits at item 58/88 (sims_utils 2.3.4.sims)
+
+**6.4 Installing maf_contrib:** ([maf_contrib instructions](https://github.com/LSST-nonproject/sims_maf_contrib)):
+
+* (If in a new terminal:) source ~/Soft/lsst/loadLSST.csh 
+    * loadLSST.bash if you're using bash, similar for other shells
+
+* (If in a new terminal:) setup sims_maf -t sims
+
+* cd ~/Soft
+
+* git clone https://github.com/LSST-nonproject/sims_maf_contrib.git
 
 * cd sims_maf_contrib
 
-* If you haven't already: source /Applications/anaconda/bin/eups-setups.csh
+* eups declare sims_maf_contrib -r . -t $USER
+    * This throws a warning that the path is absolute, not relative. I think this can be safely ignored.
 
-* eups declare -r . -t $USER 
-  * Apparently only needs to be done once on install. When running later, you won't need to do this again.
+**6.5. Running sims_maf and maf_contrib**
 
-* setup sims_maf_contrib -t $USER -t sims
-  * **UPDATE 2016-04-24** - this step now no longer works on my system (the "sims" tag is invalid). I suspect I am seeing some eups-related problems on this computer. However it should work for you!
-  * Workaround: You can still use the modules in sims_maf_contrib by copying the directory into your working directory. (Adding to your $PATH probably also works, but I have not yet tested this. I am hoping to get sims_maf_contrib working again properly without having to mess with the path.)
-    * For example, in the FigureOfMerit notebook for the Galactic Supernova, I copied the Starcounts/ directory from sims_maf_contrib into the working directory for the notebook, and was able to use it.  
-
-
-**6.3. Setting the PATH**
-
-On my system, importing lsst.sims.maf failed because anaconda python
-was not in the PATH on my system. I had to put the following at the
-end of my ~/.tcshrc file:
-
-* setenv PATH /Applications/anaconda/bin:${PATH}
-
-**6.4. Running sims_maf and maf_contrib**
+(Assuming this is all from a new terminal):
 
 * cd to some test directory on your system.
 
@@ -190,14 +226,15 @@ end of my ~/.tcshrc file:
 
 * Either run the following commands one by one, or put them into a
   shell script that you can call at your convenience:
-  * source /Applications/anaconda/bin/eups-setups.csh
-  * setup sims_maf
+  * source ~/Soft/lsst/loadLSST.csh
+  * setup setup lsst_distrib
+  * setup setup sims_maf -t sims
   * setup sims_maf_contrib -t $USER -t sims
 
 * Now try the notebook:
   * jupyter notebook Getting_MAF_Help.ipynb
 
-**6.5. jupyter notebook vs ipython notebook**
+**6.6. jupyter notebook vs ipython notebook**
 
 On my system, trying to run ipython notebook resulted in a deprecation warning and a delayed launch. Jupyter seems to be preferred. To install it:
 * conda install jupyter
@@ -206,77 +243,22 @@ If your PATH includes your anaconda installation, then that should be all you ne
 
 ### 7. HOWTO get the github version of sims_maf working on your system ###
 
+**WIC 2017-04-28** - the issue below seems to have been fixed in the
+  new maf version. I have copied the suggestions below to
+  **installSteps2016.md **. For completeness, the issue is below.
+
 **WIC 2016-04-24:** For some reason conda is not upating sims_maf past
 version 2.0.1.5 on my system, and version sims_2.2.4 is needed to
 apply certain parallax metrics on the 2016 runs. I therefore needed to
 use the github version of sims_maf. 
 
-Since that failed to work out of the box on my system - but there is a
-workaround - I provide the steps here in case they are useful to
-you. In order:
-
-* Navigate your browser to https://github.com/LSST-nonproject/sims_maf_contrib
-  * (Probably a good idea to fork if you think you will be contributing pull requests)
-
-* cd /path/to/my/github/clones
-
-* git clone the repository
-
-* cd ./sims_maf
-
-* eups declare sims_maf git -r .
-
-* eups declare sims_maf git -t $USER
-
-To test, in a new shell try:
-
-* source ~/anaconda/bin/eups-setups.csh (or your equivalent)
-
-* setup sims_maf -t $USER
-
-* In your ipython shell or notebook: 
-  * from lsst.sims.maf.metrics import calibrationMetrics
-
-On my system this initially failed, because **version.py** was missing
-from the github version. ("No module named version" in the error
-message.) The canonical way to fix this:
-
-* cd /path/to/my/github/clones/sims_maf/
-
-* scons
-  * or ~/anaconda/bin/scons if you don't have scons in your path
-
-* ls /path/to/my/github/clones/sims_maf/sst/sims/maf/version.py
-
-If the above steps produce no **version.py** in that location, the
-import will probably fail again. On my system, **scons** failed
-outright.
-
-There is a workaround, which was suggested to me by Keaton Bell: copy
-a pre-built **version.py** into the required location. While the version
-information will be incorrect, at least the github version of sims_maf
-will run on your system! A canned **version.py** file is included in this
-repository, in the subdirectory miscRequiredFiles/   . So:
-
-* cd /path/to/my/github/clones/sims_maf/sst/sims/maf
-
-* cp -p /path/to/my/github/clones/lsstScratchWIC/miscRequiredFiles/version.py .
-
-At this point, the import should work fine. Try testing again in a new shell:
-
-* source ~/anaconda/bin/eups-setups.csh (or your equivalent)
-
-* setup sims_maf -t $USER
-
-* In your ipython shell or notebook: 
-  * from lsst.sims.maf.metrics import calibrationMetrics
-
-... and all should be well.
-
-
 ### 8. History ###
 
 (Only changes major enough for a comment are included!)
+
+**2017-04-28:** Rewrote the installation instructions in the Readme to
+  reflect the updated sims_maf. Old instructions moved to
+  **installSteps2016.md**
 
 **2016-04-25:** Added **shellScripts** subdirectory. Scripts useful to 
 organise the output of several runs can be found there.

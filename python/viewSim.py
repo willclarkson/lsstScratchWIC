@@ -15,10 +15,12 @@ import os, time
 import numpy as np
 from astropy.table import Table, Column
 from astropy.io import fits
-
 from scipy.optimize import leastsq # simple least-squares for the moment
-
 import matplotlib.pylab as plt
+
+# co-ordinate handling
+from astropy.coordinates import SkyCoord
+from astropy import units as u
 
 class ConvertAscii(object):
 
@@ -270,6 +272,18 @@ class SimSamples(object):
         self.RSol = 8.0  # kpc
         self.WSol = 240. # km/s, sun's tangential velocity
 
+        # Astropy coordinates object
+        self.cooXYZ = None
+        self.cooICRS = None
+
+        # Reassign all the points to a selected range of Phi?
+        self.restrictPhi=False
+        self.phiWidth = 1.  # degrees
+        self.phiMethod = np.random.uniform  # method generating phi values
+
+        # Verbosity
+        self.Debug=True
+
     def loadFitsSim(self):
 
         """Loads the fits simulation."""
@@ -286,6 +300,121 @@ class SimSamples(object):
         self.tSim = Table.read(self.simPath)
 
         self.bGood = np.isfinite(self.tSim['X'])
+    
+    def applyCircularSymmetry(self, showPln=True):
+
+        """If we're doing the galactocentric-only case, restrict the
+        range of phi"""
+
+        if not self.restrictPhi:
+            return
+
+        # Views to avoid typos
+        X = self.tSim['X']
+        Y = self.tSim['Y']
+
+        # in-plane radius
+        rPln = np.sqrt(X**2 + Y**2)
+
+        # if showing the plane, select a subsample and plot
+        if showPln:
+            gHi = np.where(rPln < self.RSol)[0]
+            lSho = np.random.random_integers(0, len(gHi)-1, 10000)
+            lSho = gHi[lSho]
+
+            plt.figure(4, figsize=(5,5))
+            plt.clf()
+            plt.scatter(self.tSim['X'][lSho], self.tSim['Y'][lSho], c='0.2', alpha=0.2)
+        
+
+        # Default to normal distribution unless a different method was set
+        widthRad = np.radians(self.phiWidth)
+        phi = np.random.normal(size=np.size(rPln)) * widthRad
+        if self.phiMethod.__name__.find('uniform') > -1:
+            phi = np.random.uniform(size=np.size(rPln)) * widthRad - 0.5*widthRad
+            
+        
+
+        # Now use the radii to assign the new XY coordinates. We do
+        # this using SUN-centered then shift...
+        self.tSim['X'] = rPln * np.cos(phi)
+        self.tSim['Y'] = rPln * np.sin(phi)
+            
+        if not showPln:
+            return
+
+        plt.scatter(self.tSim['X'][lSho], self.tSim['Y'][lSho], c=phi[lSho])
+
+    def assignEquatorial(self, showProj=True):
+
+        """Uses astropy's coordinates & representation capabilities to
+        convert the XYZ in the simulation to (alpha, delta)."""
+
+        # 2016-09-09 - I'll be interested to see how fast this goes
+        # with a few million objects...
+
+        # This follows the example in:
+
+        # http://docs.astropy.org/en/stable/coordinates/skycoord.html#astropy-skycoord-representations
+
+        xyz = np.zeros((len(self.tSim), 3))
+        xyz[:,0] = self.tSim['X']
+        xyz[:,1] = self.tSim['Y']
+        xyz[:,2] = self.tSim['Z']
+
+        if self.Debug:
+            print "building SkyCoord representation..."
+
+        t0 = time.time()
+        self.cooXYZ = SkyCoord(xyz, representation='cartesian', frame='galactic')
+        self.cooICRS = self.cooXYZ.icrs
+        if self.Debug:
+            print "... done after %.2e seconds" % (time.time() - t0)  
+            # typically 0.6s for 2M objects on my laptop
+
+            # not sure why this isn't working...
+            rPln = np.sqrt(self.cooXYZ.cartesian.x**2 + self.cooXYZ.cartesian.y**2)
+            print np.min(rPln), np.max(rPln)
+            
+            galL = self.cooICRS.galactic.l.wrap_at(180. * u.deg)
+            print np.min(galL)
+            print np.max(galL)
+            print np.std(galL)
+
+        if not showProj:
+            return
+
+        # 2016-09-09 Did some experimentation with the timings
+        # here... Each time self.cooXYZ.icrs is called it seems to add
+        # about 0.5 seconds to the runtime... so perhaps this
+        # generates a representation rather than just accessing a
+        # quantity?
+
+        t1 = time.time()
+        ra_rad = self.cooICRS.ra.wrap_at(180. * u.deg).radian
+        dec_rad = self.cooICRS.dec.radian
+
+        if self.Debug:
+            print "Wrap done  after %.2e seconds" % (time.time() - t1)
+
+
+        # select a random subsample for the plot - when I tried this
+        # the first time it went straight to swapspace and froze the
+        # computer...
+        rPln = np.sqrt(self.tSim['X']**2 + self.tSim['Y']**2)
+        gHi = np.where(rPln < self.RSol)[0]
+        lSho = np.random.random_integers(0, len(gHi)-1, 10000)
+        lSho = gHi[lSho]
+
+        plt.figure(3, figsize=(8,4.2))
+        plt.clf()
+        plt.subplot(111, projection="aitoff")
+        plt.title("Aitoff projection of %i randomly-chosen particles" % (len(lSho)))
+        plt.grid(True)
+        plt.plot(ra_rad[lSho], dec_rad[lSho], 'o', markersize=2, alpha=0.3)
+        plt.subplots_adjust(top=0.95,bottom=0.0)
+        plt.savefig('TEST_sim_samples_aitoff.png')
+        
 
     def calcVphi(self):
 
@@ -311,6 +440,9 @@ class SimSamples(object):
     def calcProperMotion(self):
 
         """Estimates the proper motions of the objects"""
+
+        # WARNING - WILL BE INCORRECT IF WE'RE NOT ASSUMING ALL THE
+        # OBJECTS ARE ALONG THE SUN-GALACTOCENTER LINE
 
         dist = self.tSim['R'] - self.RSol
         muL = (self.tSim['vPhi'] - self.WSol) / (4.74 * dist)
@@ -525,6 +657,7 @@ class SimSamples(object):
                                             'k-', lw=2, zorder=25)
 
 
+
 # =================== Fitting routines used on generic (x,y) data ====
 
 def oneStraight(x, P):
@@ -575,7 +708,8 @@ def testSimCalc(nStrips=10, maxFeH=0.1, \
                     eFlatFeH=0.1,\
                     RMin=7., RMax=9., \
                     ZMin = 0.5, ZMax=1., \
-                    AgeMin=0., AgeMax=15.):
+                    AgeMin=0., AgeMax=15., \
+                    enforceCircular = True):
 
     """Loads the fits simulation and calculates a couple of useful
     columns"""
@@ -594,9 +728,15 @@ def testSimCalc(nStrips=10, maxFeH=0.1, \
     SS.uncPM = eFlatPM
     SS.uncFeH = eFlatFeH
     SS.useFlatUncertainty=True
+    SS.restrictPhi = enforceCircular
 
     # Read the simulation
     SS.loadFitsSim()
+
+    # assign coordinates
+    SS.applyCircularSymmetry()
+    SS.assignEquatorial()
+    return
 
     # Calculate some intermediate columns
     SS.calcVphi()
@@ -628,3 +768,4 @@ def testSimCalc(nStrips=10, maxFeH=0.1, \
 #    print SS.tSim
 
 #    print np.sum(SS.bGood)
+
