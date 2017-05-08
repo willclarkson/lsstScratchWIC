@@ -15,12 +15,15 @@ This is mostly a collection of routines and steps that worked for
 me. This should allow you to get up and running with metrics and
 figures of merit reasonably quickly.
 
-I thank Peter Yoachim for his help and considerable patience
-with my queries, as well as Keaton Bell for suggesting the version.py
-workaround below.
+I thank Peter Yoachim for his help and considerable patience with my 
+queries, as well as Keaton Bell for suggesting the version.py workaround 
+below (update 2017-05-08 that workaround no longer needed, but was vital when I 
+had to use it!!).
 
-**2016-04-24 Update:** I am finding **sims_maf_contrib** no longer functions on my system, although there is a 
-workaround (in Section 6.2 below). Hopefully this will be fixed soon.
+~~**2016-04-24 Update:** I am finding **sims_maf_contrib** no longer 
+functions on my system, although there is a workaround (in Section 6.2 
+below). Hopefully this will be fixed soon.~~ **2017-05-08** Fixed; 
+maf_contrib installs and runs fine.
 
 ### 1. Reminder/warning - changes in OpSim runs since 2015 ###
 
