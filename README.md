@@ -108,7 +108,7 @@ string in brackets when defining **opsdbPSlike** that sets the input path).
 * **... however you almost certainly want the new ones, with which the
   current version of sims-maf is compatible:**
 
-[http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys]
+http://lsst.org/scientists/simulations/opsim/opsim-v335-benchmark-surveys
 
 ### 5. Suggested sequence if running from scratch ###
 
