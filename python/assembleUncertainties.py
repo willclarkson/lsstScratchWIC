@@ -149,7 +149,8 @@ def findUncertainties(thisFilter='r', \
     bgroup.runAll()
 
     # ... also plot...
-    bgroup.plotAll()
+    if doPlots:
+        bgroup.plotAll()
 
     # now produce the table for this run
     nameDepth = 'opsim_CoaddM5_%s_and_night_lt_%i_HEAL' \
