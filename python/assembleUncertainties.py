@@ -5,7 +5,7 @@
 # WIC 2017-07-25 - assembles the photometric and crowding
 # uncertainties for an entire OpSim run, converting to flat table for
 # convenient input to other routines. Written for work with Oscar
-# Gonzalez during STEFC visit at ROE.
+# Gonzalez during STFC visit at ROE.
 
 # Based on Peter Yoachim's CrowdingMetrics.ipynb which was then edited
 # into 2017-07-25_AssembleCrowding.ipynb
