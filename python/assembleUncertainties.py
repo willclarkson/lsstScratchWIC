@@ -70,7 +70,8 @@ def findUncertainties(thisFilter='r', \
 
     # build up the bundle list. First the crowding...
     bundleList = []
-    metric = metrics.CrowdingMetric(crowding_error=0.05, seeingCol=seeingCol)
+    metric = metrics.CrowdingMetric(crowding_error=crowdError, \
+                                        seeingCol=seeingCol)
     bundle = metricBundles.MetricBundle(metric,\
                                             slicer,sql, plotDict=plotDict, \
                                             plotFuncs=plotFuncs)
