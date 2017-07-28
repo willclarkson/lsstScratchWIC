@@ -68,14 +68,41 @@ def findUncertainties(thisFilter='r', \
     sql = 'filter="%s" and night < %i' % (thisFilter, tMax)
     plotDict={'colorMax':27.}
 
-    # build up the bundle list. First the crowding...
+    # initialise the entire bundle list
     bundleList = []
-    metric = metrics.CrowdingMetric(crowding_error=crowdError, \
-                                        seeingCol=seeingCol)
-    bundle = metricBundles.MetricBundle(metric,\
-                                            slicer,sql, plotDict=plotDict, \
-                                            plotFuncs=plotFuncs)
-    bundleList.append(bundle)
+
+    # if passed a single number, turn the crowdErr into a list
+    if str(crowdError.__class__).find('list') < 0:
+        crowdVals = [np.copy(crowdError)]
+    else:
+        crowdVals = crowdError[:]
+
+    # build up the bundle list. Build up a list of crowding values and
+    # their column names. HARDCODED for the moment, can make the input list
+    # an argument if desired.
+    crowdStem = '%sCrowd' % (thisFilter)
+    lCrowdCols = []
+    # loop through the crowding values
+    #crowdVals = [0.2, 0.1, 0.05]
+    for errCrowd in crowdVals:  
+        crowdName = '%s%.3f' % (crowdStem,errCrowd)
+        lCrowdCols.append(crowdName) # to pass later
+        metricThis = metrics.CrowdingMetric(crowding_error=errCrowd, \
+                                                seeingCol='FWHMeff')
+        bundleThis = metricBundles.MetricBundle(metricThis, slicer, sql, \
+                                                    plotDict=plotDict, \
+                                                    fileRoot=crowdName, \
+                                                    runName=crowdName, \
+                                                    plotFuncs=plotFuncs)
+
+        bundleList.append(bundleThis)
+
+    #metric = metrics.CrowdingMetric(crowding_error=crowdError, \
+    #    seeingCol=seeingCol)
+    #bundle = metricBundles.MetricBundle(metric,\
+    #                                        slicer,sql, plotDict=plotDict, \
+    #                                        plotFuncs=plotFuncs)
+    #bundleList.append(bundle)
     
     # ... then the m5col
     metricCoadd = metrics.Coaddm5Metric()
@@ -180,14 +207,20 @@ def findUncertainties(thisFilter='r', \
 
     tVals[sCoadd] = Column(bgroup.bundleDict[nameDepth].metricValues, \
                                dtype='float')
-    tVals[sCrowd] = Column(bgroup.bundleDict[nameCrowd].metricValues, \
-                               dtype='float')
+
+    # REPLACE the single-crowding with the set of columns, like so:
+    #tVals[sCrowd] = Column(bgroup.bundleDict[nameCrowd].metricValues, \
+    #                           dtype='float')
+
+    for colCrowd in lCrowdCols:
+        tVals[colCrowd] = Column(bgroup.bundleDict[colCrowd].metricValues, \
+                                     dtype='float', format='%.3f')
 
     # enforce rounding. Three decimal places ought to be sufficient
     # for most purposes. See if the Table constructor follows this
     # through. (DOESN'T SEEM TO WORK when writing to fits anyway...)
     tVals[sCoadd].format='%.3f'
-    tVals[sCrowd].format='%.2f'  # (may only get reported to 1 d.p. anyway)
+    #tVals[sCrowd].format='%.2f'  # (may only get reported to 1 d.p. anyway)
 
     #tVals['%sCrowdBri' % (thisFilter)] = \
     #    np.asarray(tVals[sCrowd] < tVals[sCoadd], 'int')
@@ -211,7 +244,7 @@ def findUncertainties(thisFilter='r', \
     # Set metadata and write to disk. Add comments later.
     tVals.meta['nsideFound'] = nsideFound
     tVals.meta['tMax'] = tMax
-    tVals.meta['crowdError'] = crowdError
+    tVals.meta['crowdError'] = crowdVals
     tVals.meta['countedCol'] = col2Count[:]
 
     # generate output path
@@ -232,7 +265,7 @@ def findUncertainties(thisFilter='r', \
 
 def wrapTables(nside=64, tMax=730, \
                           dbFil='minion_1016_sqlite.db', \
-                          crowdError=0.2, \
+                          crowdError=[0.2, 0.1, 0.05], \
                           seeingCol='FWHMeff', \
                    cleanNpz=True):
     
@@ -253,9 +286,20 @@ def wrapTables(nside=64, tMax=730, \
     # fuse the tables
     outDir = lPaths[0].split('/')[0]
 
-    # string for crowding error
-    sCrowd = '%s' % (str(crowdError).replace('.','p'))
+    # string for crowding error. This could be made a bit better using
+    # the actual table metadata. For the moment, take the input.
+    try:
+        minCrowd = '%.3f' % (np.min(crowdError))
+        maxCrowd = '%.3f' % (np.max(crowdError))
+        sCrowd = 'cErr%s-%s' % (minCrowd, maxCrowd)
+        sCrowd = sCrowd.replace('.','p')
+    except:
+        sCrowd = '%s' % (str(crowdError).replace('.','p'))
+
+        # in case an array is still getting passed here...
+        sCrowd = sCrowd.replace('[','').replace(']',''),replace(' ','-')
     
+
     pathFused = '%s/fused_%s_n%i_t%i_e%s.fits.gz' % \
         (outDir, dbFil.split('_sqlite.db')[0], \
              nside, tMax, sCrowd)
@@ -311,9 +355,12 @@ def fuseTables(lPaths=[], pathFused='testFused.fits', \
     tMaster.write(pathFused, overwrite=True)
                       
 
-def wrapThruDatabases(nside=128, tMax=9999, crowdError=0.05):
+def wrapThruDatabases(nside=128, tMax=9999, \
+                          crowdError=[0.2, 0.1, 0.05]):
 
-    """Loops through databases, producing a fused table for each"""
+    """Loops through databases, producing a fused table for each. Example call:
+
+    assembleUncertainties.wrapThruDatabases(crowdError=[0.2,0.1,0.05,0.02])"""
 
     for dbFil in ['minion_1016_sqlite.db', \
                       'astro_lsst_01_1004_sqlite.db']:
