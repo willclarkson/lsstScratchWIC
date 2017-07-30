@@ -356,7 +356,7 @@ def fuseTables(lPaths=[], pathFused='testFused.fits', \
                       
 
 def wrapThruDatabases(nside=128, tMax=9999, \
-                          crowdError=[0.2, 0.1, 0.05]):
+                          crowdError=[0.2, 0.1, 0.05, 0.01]):
 
     """Loops through databases, producing a fused table for each. Example call:
 
