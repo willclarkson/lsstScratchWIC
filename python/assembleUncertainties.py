@@ -46,7 +46,9 @@ def findUncertainties(thisFilter='r', \
                           crowdError=0.2, \
                           seeingCol='FWHMeff', \
                           cleanNpz=True, \
-                          doPlots=False):
+                          doPlots=False, \
+                          wrapGalacs=True, \
+                          selectStrip=True):
 
     """Catalogs the uncertainties for a given database, returns the
     file path"""
@@ -202,6 +204,11 @@ def findUncertainties(thisFilter='r', \
     tVals['l'] = cc.galactic.l.degree
     tVals['b'] = cc.galactic.b.degree
 
+    # wrap Galactics?
+    if wrapGalacs:
+        bBig = tVals['l'] > 180.
+        tVals['l'][bBig] -= 360.
+
     sCoadd = '%sCoadd' % (thisFilter)
     sCrowd = '%sCrowd' % (thisFilter)
 
@@ -247,9 +254,33 @@ def findUncertainties(thisFilter='r', \
     tVals.meta['crowdError'] = crowdVals
     tVals.meta['countedCol'] = col2Count[:]
 
+    # Can select only within strip to cut down on space requirements
+    sSel=''
+    if selectStrip:
+        bMin = -30.
+        bMax = +25.
+        lMin = -150.
+        lMax = 80.
+        sSel = '_nrPlane'
+
+        bStrip = (tVals['b'] >= bMin) & \
+            (tVals['b'] <= bMax) & \
+            (tVals['l'] >= lMin) & \
+            (tVals['l'] <= lMax)
+
+        tVals = tVals[bStrip]
+
+        tVals.meta['sel_lMin'] = lMin
+        tVals.meta['sel_lMax'] = lMax
+        tVals.meta['sel_bMin'] = bMin
+        tVals.meta['sel_bMax'] = bMax
+
+    # metadata
+    tVals.meta['selectStrip'] = selectStrip
+
     # generate output path
-    pathTab = '%s/table_uncty_%s_%s_nside%i_tmax%i.fits' % \
-        (outDir, dbFil.split('_sqlite')[0], thisFilter, nside, tMax)
+    pathTab = '%s/table_uncty_%s_%s_nside%i_tmax%i%s.fits' % \
+        (outDir, dbFil.split('_sqlite')[0], thisFilter, nside, tMax, sSel)
 
     # save the table
     tVals.write(pathTab, overwrite=True)
@@ -267,7 +298,8 @@ def wrapTables(nside=64, tMax=730, \
                           dbFil='minion_1016_sqlite.db', \
                           crowdError=[0.2, 0.1, 0.05], \
                           seeingCol='FWHMeff', \
-                   cleanNpz=True):
+                   cleanNpz=True, \
+                   selectPlane=True):
     
     """Wrapper - constructs the tables for each filter"""
 
@@ -280,7 +312,8 @@ def wrapTables(nside=64, tMax=730, \
                                          tMax=tMax, \
                                          crowdError=crowdError, \
                                          seeingCol=seeingCol, \
-                                         dbFil=dbFil)
+                                         dbFil=dbFil, \
+                                         selectStrip=selectPlane)
         lPaths.append(thisPath)
 
     # fuse the tables
@@ -299,10 +332,14 @@ def wrapTables(nside=64, tMax=730, \
         # in case an array is still getting passed here...
         sCrowd = sCrowd.replace('[','').replace(']',''),replace(' ','-')
     
+    # Did we select close to the plane?
+    sPlane = ''
+    if selectPlane:
+        sPlane='_nrPlane'
 
-    pathFused = '%s/fused_%s_n%i_t%i_e%s.fits.gz' % \
+    pathFused = '%s/fused_%s_n%i_t%i_e%s%s.fits.gz' % \
         (outDir, dbFil.split('_sqlite.db')[0], \
-             nside, tMax, sCrowd)
+             nside, tMax, sCrowd, sPlane)
 
     if cleanNpz:
         for pathNp in glob.glob('%s/*.npz' % (outDir)):
@@ -356,7 +393,8 @@ def fuseTables(lPaths=[], pathFused='testFused.fits', \
                       
 
 def wrapThruDatabases(nside=128, tMax=9999, \
-                          crowdError=[0.2, 0.1, 0.05, 0.01]):
+                          crowdError=[0.2, 0.1, 0.05, 0.01], \
+                          selectPlane=True):
 
     """Loops through databases, producing a fused table for each. Example call:
 
@@ -367,4 +405,5 @@ def wrapThruDatabases(nside=128, tMax=9999, \
 
         wrapTables(nside=nside, tMax=tMax, \
                        dbFil=dbFil, \
-                       crowdError=crowdError)
+                       crowdError=crowdError, \
+                       selectPlane=selectPlane)
