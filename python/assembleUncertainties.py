@@ -49,6 +49,8 @@ def findUncertainties(thisFilter='r', \
                           doPlots=False, \
                           wrapGalacs=True, \
                           selectStrip=True):
+#, \
+#                          hiRes=True):
 
     """Catalogs the uncertainties for a given database, returns the
     file path"""
@@ -72,6 +74,12 @@ def findUncertainties(thisFilter='r', \
 
     # initialise the entire bundle list
     bundleList = []
+
+    # set up for higher-resolution spatial maps DOESN'T WORK ON LAPTOP
+    #if hiRes:
+    #    mafMap = maps.StellarDensityMap(nside=128)
+    #else:
+    #    mafMap = maps.StellarDensityMap(nside=64)
 
     # if passed a single number, turn the crowdErr into a list
     if str(crowdError.__class__).find('list') < 0:
@@ -118,7 +126,7 @@ def findUncertainties(thisFilter='r', \
     # as well so that we can conveniently access them later.
     # some convenient plot functions
     statsCols = ['FWHMeff', 'fiveSigmaDepth', 'airmass']
-    metricNames = [ 'MedianMetric', 'RobustRmsMetric' ]
+    metricNames = [ 'MedianMetric', 'RobustRmsMetric', 'MinMetric', 'MaxMetric']
     statsNames = {}
     sKeyTail = '_%s_and_night_lt_%i_HEAL' % (thisFilter, tMax)
 
@@ -130,6 +138,10 @@ def findUncertainties(thisFilter='r', \
     plotDicts['FWHMeff_RobustRmsMetric'] = {'colorMax':1.}
     plotDicts['fiveSigmaDepth_RobustRmsMetric'] = {'colorMax':2.}
     plotDicts['airmass_RobustRmsMetric'] = {'colorMax':1.}
+
+    # initialize the minmax values for the moment
+    plotDicts['FWHMeff_MinMetric'] = {'colorMax':3}
+    plotDicts['FWHMeff_MaxMetric'] = {'colorMax':3}
 
     # ensure they all have xMax as well
     for sKey in plotDicts.keys():
@@ -149,6 +161,7 @@ def findUncertainties(thisFilter='r', \
             bundleObj = metricBundles.MetricBundle(metricObj,slicer,sql, \
                                                        plotDict=plotDict, \
                                                        plotFuncs=plotFuncs)
+
             bundleList.append(bundleObj)
 
             # construct the output table column name and the key for
@@ -299,7 +312,7 @@ def wrapTables(nside=64, tMax=730, \
                           crowdError=[0.2, 0.1, 0.05], \
                           seeingCol='FWHMeff', \
                    cleanNpz=True, \
-                   selectPlane=True):
+                   selectPlane=False):
     
     """Wrapper - constructs the tables for each filter"""
 
@@ -394,7 +407,7 @@ def fuseTables(lPaths=[], pathFused='testFused.fits', \
 
 def wrapThruDatabases(nside=128, tMax=9999, \
                           crowdError=[0.2, 0.1, 0.05, 0.01], \
-                          selectPlane=True):
+                          selectPlane=False):
 
     """Loops through databases, producing a fused table for each. Example call:
 
